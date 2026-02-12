@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML入門 - Webデザイン学習</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="../index.html" class="logo"><img src="../logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">🏠 ホーム</a></li>
+        <li><a href="html-exercises.html">📄 HTML</a></li>
+        <li><a href="css-exercises.html">🎨 CSS</a></li>
+        <li><a href="layout-exercises.html">📐 レイアウト</a></li>
+        <li><a href="js-exercises.html">⚡ JS</a></li>
+        <li><a href="dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="api-exercises.html">🌐 API</a></li>
+        <li><a href="a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="animation-exercises.html">✨ Anim</a></li>
+        <li><a href="quiz.html">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="../index.html"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li><a href="learn-html.html" class="active"><span class="menu-icon">📄</span>HTML入門</a></li>
+      <li><a href="learn-css.html"><span class="menu-icon">🎨</span>CSS入門</a></li>
+      <li><a href="learn-js.html"><span class="menu-icon">⚡</span>JavaScript入門</a></li>
+      <li><a href="cheatsheet.html"><span class="menu-icon">📋</span>チートシート</a></li>
+      <li><a href="html-exercises.html"><span class="menu-icon">✏️</span>HTML問題</a></li>
+      <li><a href="css-exercises.html"><span class="menu-icon">✏️</span>CSS問題</a></li>
+      <li><a href="quiz.html"><span class="menu-icon">❓</span>クイズ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article class="tutorial">
+      <div class="tutorial-header">
+        <span class="tutorial-badge">入門</span>
+        <h1>📄 HTML入門</h1>
+        <p class="tutorial-intro">HTMLはWebページの骨格を作る言語です。タグを使って文書の構造を定義します。</p>
+      </div>
+
+      <nav class="tutorial-nav">
+        <h3>目次</h3>
+        <ol>
+          <li><a href="#what-is-html">HTMLとは？</a></li>
+          <li><a href="#basic-structure">基本構造</a></li>
+          <li><a href="#text-tags">テキスト関連タグ</a></li>
+          <li><a href="#links-images">リンクと画像</a></li>
+          <li><a href="#lists">リスト</a></li>
+          <li><a href="#tables">テーブル</a></li>
+          <li><a href="#forms">フォーム</a></li>
+          <li><a href="#semantic">セマンティックHTML</a></li>
+        </ol>
+      </nav>
+
+      <section class="tutorial-section" id="what-is-html">
+        <h2>1. HTMLとは？</h2>
+        <p><strong>HTML</strong>（HyperText Markup Language）は、Webページの構造を定義するマークアップ言語です。</p>
+
+        <div class="info-box">
+          <h4>💡 ポイント</h4>
+          <ul>
+            <li>HTMLは「何を表示するか」を定義する</li>
+            <li>CSSは「どう見せるか」を定義する</li>
+            <li>JavaScriptは「どう動かすか」を定義する</li>
+          </ul>
+        </div>
+
+        <p>HTMLは<strong>タグ</strong>を使って文書の構造を記述します。タグは <code>&lt;タグ名&gt;</code> のように書きます。</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>例：段落タグ</span>
+          </div>
+          <pre><code>&lt;p&gt;これは段落です。&lt;/p&gt;</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="basic-structure">
+        <h2>2. 基本構造</h2>
+        <p>すべてのHTMLファイルは以下の基本構造を持ちます。</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>HTML基本構造</span>
+          </div>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;ページタイトル&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- ここにコンテンツを書く --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="explanation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>要素</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;!DOCTYPE html&gt;</code></td>
+                <td>HTML5文書であることを宣言</td>
+              </tr>
+              <tr>
+                <td><code>&lt;html&gt;</code></td>
+                <td>HTML文書のルート要素</td>
+              </tr>
+              <tr>
+                <td><code>&lt;head&gt;</code></td>
+                <td>メタ情報（タイトル、CSS、文字コードなど）</td>
+              </tr>
+              <tr>
+                <td><code>&lt;body&gt;</code></td>
+                <td>ページに表示されるコンテンツ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="text-tags">
+        <h2>3. テキスト関連タグ</h2>
+
+        <h3>見出し（h1〜h6）</h3>
+        <p>見出しは <code>&lt;h1&gt;</code> から <code>&lt;h6&gt;</code> まであり、数字が小さいほど重要度が高くなります。</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>見出しタグ</span>
+          </div>
+          <pre><code>&lt;h1&gt;大見出し（最も重要）&lt;/h1&gt;
+&lt;h2&gt;中見出し&lt;/h2&gt;
+&lt;h3&gt;小見出し&lt;/h3&gt;
+&lt;h4&gt;さらに小さい見出し&lt;/h4&gt;
+&lt;h5&gt;もっと小さい見出し&lt;/h5&gt;
+&lt;h6&gt;最小の見出し&lt;/h6&gt;</code></pre>
+        </div>
+
+        <h3>段落と改行</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>段落と改行</span>
+          </div>
+          <pre><code>&lt;p&gt;これは段落です。&lt;/p&gt;
+&lt;p&gt;これは別の段落です。&lt;/p&gt;
+
+&lt;p&gt;この文章の途中で&lt;br&gt;改行します。&lt;/p&gt;</code></pre>
+        </div>
+
+        <h3>テキストの装飾</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>テキスト装飾タグ</span>
+          </div>
+          <pre><code>&lt;strong&gt;重要なテキスト（太字）&lt;/strong&gt;
+&lt;em&gt;強調テキスト（斜体）&lt;/em&gt;
+&lt;mark&gt;ハイライトされたテキスト&lt;/mark&gt;
+&lt;del&gt;削除されたテキスト&lt;/del&gt;
+&lt;ins&gt;挿入されたテキスト&lt;/ins&gt;
+&lt;code&gt;コード&lt;/code&gt;</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="links-images">
+        <h2>4. リンクと画像</h2>
+
+        <h3>リンク（aタグ）</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>リンクの書き方</span>
+          </div>
+          <pre><code>&lt;!-- 基本のリンク --&gt;
+&lt;a href="https://example.com"&gt;リンクテキスト&lt;/a&gt;
+
+&lt;!-- 新しいタブで開く --&gt;
+&lt;a href="https://example.com" target="_blank"&gt;新しいタブで開く&lt;/a&gt;
+
+&lt;!-- ページ内リンク --&gt;
+&lt;a href="#section1"&gt;セクション1へ移動&lt;/a&gt;
+
+&lt;!-- メールリンク --&gt;
+&lt;a href="mailto:info@example.com"&gt;メールを送る&lt;/a&gt;</code></pre>
+        </div>
+
+        <h3>画像（imgタグ）</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>画像の埋め込み</span>
+          </div>
+          <pre><code>&lt;!-- 基本の画像 --&gt;
+&lt;img src="image.jpg" alt="画像の説明"&gt;
+
+&lt;!-- サイズ指定 --&gt;
+&lt;img src="image.jpg" alt="画像の説明" width="300" height="200"&gt;</code></pre>
+        </div>
+
+        <div class="warning-box">
+          <h4>⚠️ 注意</h4>
+          <p><code>alt</code> 属性は必ず設定しましょう。画像が読み込めない時や、スクリーンリーダー使用時に重要です。</p>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="lists">
+        <h2>5. リスト</h2>
+
+        <h3>順序なしリスト（ul）</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>順序なしリスト</span>
+          </div>
+          <pre><code>&lt;ul&gt;
+  &lt;li&gt;りんご&lt;/li&gt;
+  &lt;li&gt;みかん&lt;/li&gt;
+  &lt;li&gt;バナナ&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+        </div>
+
+        <h3>順序ありリスト（ol）</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>順序ありリスト</span>
+          </div>
+          <pre><code>&lt;ol&gt;
+  &lt;li&gt;最初のステップ&lt;/li&gt;
+  &lt;li&gt;次のステップ&lt;/li&gt;
+  &lt;li&gt;最後のステップ&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+        </div>
+
+        <h3>定義リスト（dl）</h3>
+        <div class="code-example">
+          <div class="code-header">
+            <span>定義リスト</span>
+          </div>
+          <pre><code>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Webページの構造を定義する言語&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Webページのスタイルを定義する言語&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="tables">
+        <h2>6. テーブル</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>テーブルの基本構造</span>
+          </div>
+          <pre><code>&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;名前&lt;/th&gt;
+      &lt;th&gt;年齢&lt;/th&gt;
+      &lt;th&gt;職業&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;田中太郎&lt;/td&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;エンジニア&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;山田花子&lt;/td&gt;
+      &lt;td&gt;30&lt;/td&gt;
+      &lt;td&gt;デザイナー&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+
+        <div class="explanation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>タグ</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;table&gt;</code></td>
+                <td>テーブル全体</td>
+              </tr>
+              <tr>
+                <td><code>&lt;thead&gt;</code></td>
+                <td>ヘッダー部分</td>
+              </tr>
+              <tr>
+                <td><code>&lt;tbody&gt;</code></td>
+                <td>本体部分</td>
+              </tr>
+              <tr>
+                <td><code>&lt;tr&gt;</code></td>
+                <td>行（table row）</td>
+              </tr>
+              <tr>
+                <td><code>&lt;th&gt;</code></td>
+                <td>見出しセル（table header）</td>
+              </tr>
+              <tr>
+                <td><code>&lt;td&gt;</code></td>
+                <td>データセル（table data）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="forms">
+        <h2>7. フォーム</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>フォームの例</span>
+          </div>
+          <pre><code>&lt;form action="/submit" method="POST"&gt;
+  &lt;!-- テキスト入力 --&gt;
+  &lt;label for="name"&gt;名前:&lt;/label&gt;
+  &lt;input type="text" id="name" name="name" required&gt;
+
+  &lt;!-- メール入力 --&gt;
+  &lt;label for="email"&gt;メール:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email"&gt;
+
+  &lt;!-- パスワード --&gt;
+  &lt;label for="password"&gt;パスワード:&lt;/label&gt;
+  &lt;input type="password" id="password" name="password"&gt;
+
+  &lt;!-- ラジオボタン --&gt;
+  &lt;input type="radio" id="male" name="gender" value="male"&gt;
+  &lt;label for="male"&gt;男性&lt;/label&gt;
+  &lt;input type="radio" id="female" name="gender" value="female"&gt;
+  &lt;label for="female"&gt;女性&lt;/label&gt;
+
+  &lt;!-- チェックボックス --&gt;
+  &lt;input type="checkbox" id="agree" name="agree"&gt;
+  &lt;label for="agree"&gt;同意する&lt;/label&gt;
+
+  &lt;!-- セレクトボックス --&gt;
+  &lt;label for="country"&gt;国:&lt;/label&gt;
+  &lt;select id="country" name="country"&gt;
+    &lt;option value="jp"&gt;日本&lt;/option&gt;
+    &lt;option value="us"&gt;アメリカ&lt;/option&gt;
+    &lt;option value="uk"&gt;イギリス&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;!-- テキストエリア --&gt;
+  &lt;label for="message"&gt;メッセージ:&lt;/label&gt;
+  &lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;
+
+  &lt;!-- 送信ボタン --&gt;
+  &lt;button type="submit"&gt;送信&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="semantic">
+        <h2>8. セマンティックHTML</h2>
+        <p>セマンティックHTMLとは、意味のあるタグを使って文書構造を明確にすることです。</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>セマンティックなページ構造</span>
+          </div>
+          <pre><code>&lt;body&gt;
+  &lt;header&gt;
+    &lt;nav&gt;ナビゲーション&lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;h1&gt;記事タイトル&lt;/h1&gt;
+      &lt;section&gt;
+        &lt;h2&gt;セクション1&lt;/h2&gt;
+        &lt;p&gt;内容...&lt;/p&gt;
+      &lt;/section&gt;
+    &lt;/article&gt;
+
+    &lt;aside&gt;
+      サイドバー
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    フッター
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+
+        <div class="explanation-table">
+          <table>
+            <thead>
+              <tr>
+                <th>タグ</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;header&gt;</code></td>
+                <td>ヘッダー領域</td>
+              </tr>
+              <tr>
+                <td><code>&lt;nav&gt;</code></td>
+                <td>ナビゲーション</td>
+              </tr>
+              <tr>
+                <td><code>&lt;main&gt;</code></td>
+                <td>メインコンテンツ</td>
+              </tr>
+              <tr>
+                <td><code>&lt;article&gt;</code></td>
+                <td>独立した記事</td>
+              </tr>
+              <tr>
+                <td><code>&lt;section&gt;</code></td>
+                <td>セクション</td>
+              </tr>
+              <tr>
+                <td><code>&lt;aside&gt;</code></td>
+                <td>補足情報（サイドバー）</td>
+              </tr>
+              <tr>
+                <td><code>&lt;footer&gt;</code></td>
+                <td>フッター領域</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="tutorial-footer">
+        <h3>次のステップ</h3>
+        <div class="next-steps">
+          <a href="html-exercises.html" class="next-step-card">
+            <span class="next-icon">✏️</span>
+            <span>HTML問題を解く</span>
+          </a>
+          <a href="learn-css.html" class="next-step-card">
+            <span class="next-icon">🎨</span>
+            <span>CSS入門へ進む</span>
+          </a>
+          <a href="cheatsheet.html" class="next-step-card">
+            <span class="next-icon">📋</span>
+            <span>チートシートを見る</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script>
+    // テーマ初期化
+    (function() {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+
+        document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+          icon.classList.toggle("active", icon.dataset.theme === newTheme);
+        });
+      });
+
+      document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+        icon.classList.toggle("active", icon.dataset.theme === savedTheme);
+      });
+
+      // ハンバーガーメニュー
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      hamburger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) closeMenu();
+      });
+      mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>

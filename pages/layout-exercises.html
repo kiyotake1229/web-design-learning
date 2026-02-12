@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レイアウト問題 - Webデザイン学習</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="../index.html" class="logo"><img src="../logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">🏠 ホーム</a></li>
+        <li><a href="html-exercises.html">📄 HTML</a></li>
+        <li><a href="css-exercises.html">🎨 CSS</a></li>
+        <li><a href="layout-exercises.html" class="active">📐 レイアウト</a></li>
+        <li><a href="js-exercises.html">⚡ JS</a></li>
+        <li><a href="dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="api-exercises.html">🌐 API</a></li>
+        <li><a href="a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="animation-exercises.html">✨ Anim</a></li>
+        <li><a href="quiz.html">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="../index.html"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li><a href="html-exercises.html"><span class="menu-icon">📄</span>HTML問題</a></li>
+      <li><a href="css-exercises.html"><span class="menu-icon">🎨</span>CSS問題</a></li>
+      <li><a href="layout-exercises.html" class="active"><span class="menu-icon">📐</span>レイアウト</a></li>
+      <li><a href="js-exercises.html"><span class="menu-icon">⚡</span>JavaScript</a></li>
+      <li><a href="dom-exercises.html"><span class="menu-icon">🔗</span>DOM操作</a></li>
+      <li><a href="responsive-exercises.html"><span class="menu-icon">📱</span>レスポンシブ</a></li>
+      <li><a href="project-exercises.html"><span class="menu-icon">🚀</span>実践プロジェクト</a></li>
+      <li><a href="api-exercises.html"><span class="menu-icon">🌐</span>Web API</a></li>
+      <li><a href="a11y-exercises.html"><span class="menu-icon">♿</span>アクセシビリティ</a></li>
+      <li><a href="animation-exercises.html"><span class="menu-icon">✨</span>アニメーション</a></li>
+      <li><a href="quiz.html"><span class="menu-icon">❓</span>一問一答クイズ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- 問題リスト -->
+    <section id="exercise-list-section">
+      <div class="progress-header">
+        <h2>レイアウト問題</h2>
+        <div class="progress-stats">
+          <span><strong id="completed-count">0</strong> / <span id="total-count">20</span> 問完了</span>
+          <div class="progress-mini">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div id="level-filter">
+          <!-- JSで生成 -->
+        </div>
+        <button class="btn btn-reset-small" id="reset-progress-btn">進捗リセット</button>
+      </div>
+
+      <div id="exercise-list" class="exercise-list">
+        <!-- JSで生成 -->
+      </div>
+    </section>
+
+    <!-- 問題画面 -->
+    <div id="exercise-container" class="exercise-container">
+      <!-- 左: 問題文 -->
+      <div class="problem-panel">
+        <div class="panel-header">
+          <div>
+            <span id="exercise-number">問題 1 / 20</span>
+            <span id="current-level">入門</span>
+          </div>
+          <button class="btn btn-back" id="back-btn">◁ 一覧に戻る</button>
+        </div>
+        <div class="problem-content">
+          <h3 id="exercise-title">レイアウト問題</h3>
+          <p id="exercise-description">説明文</p>
+          <p><strong>課題:</strong> <span id="exercise-task">タスク</span></p>
+
+          <div class="hint">
+            <span class="hint-toggle">+ ヒントを見る</span>
+            <p class="hint-text" id="hint-text">ヒント内容</p>
+          </div>
+
+          <div id="result-message" class="result-message"></div>
+
+          <div id="answer-section" class="answer-section">
+            <h4>模範解答</h4>
+            <pre class="answer-code" id="answer-code"></pre>
+          </div>
+        </div>
+
+        <div class="exercise-nav">
+          <button class="btn btn-secondary" id="prev-btn">◀ 前の問題</button>
+          <button class="btn btn-secondary" id="next-btn">次の問題 ▶</button>
+        </div>
+      </div>
+
+      <!-- 右: エディタとプレビュー -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="editor-panel">
+          <div class="panel-header">
+            <h2>コードエディタ</h2>
+          </div>
+          <textarea id="code-editor" class="code-editor" placeholder="ここにCSSを入力..."></textarea>
+          <div class="editor-hints"><span><kbd>Tab</kbd> インデント</span><span><kbd>Enter</kbd> 自動改行</span><span>括弧・タグ自動補完</span></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" id="check-btn">✓ 答え合わせ</button>
+            <button class="btn btn-secondary" id="show-answer-btn">📖 解答を見る</button>
+            <button class="btn btn-reset-small" id="reset-editor-btn">↺ リセット</button>
+            <button class="btn btn-accent" id="next-btn-editor">次の問題 ▶</button>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <div class="preview-header">
+            <span class="preview-dot red"></span>
+            <span class="preview-dot yellow"></span>
+            <span class="preview-dot green"></span>
+          </div>
+          <div class="preview-content" id="preview-content">
+            <!-- プレビュー表示 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script src="../app.js"></script>
+  <script>
+    const manager = new ExerciseManager('layout', layoutExercises);
+    manager.init();
+  </script>
+  <script>
+    // テーマ初期化
+    (function() {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        
+        document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+          icon.classList.toggle("active", icon.dataset.theme === newTheme);
+        });
+      });
+      
+      // アイコンの初期状態を設定
+      document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+        icon.classList.toggle("active", icon.dataset.theme === savedTheme);
+      });
+
+      // ハンバーガーメニュー
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      hamburger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) closeMenu();
+      });
+      mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>

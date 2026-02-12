@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>チートシート - Webデザイン学習</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="../index.html" class="logo"><img src="../logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">🏠 ホーム</a></li>
+        <li><a href="html-exercises.html">📄 HTML</a></li>
+        <li><a href="css-exercises.html">🎨 CSS</a></li>
+        <li><a href="layout-exercises.html">📐 レイアウト</a></li>
+        <li><a href="js-exercises.html">⚡ JS</a></li>
+        <li><a href="dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="api-exercises.html">🌐 API</a></li>
+        <li><a href="a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="animation-exercises.html">✨ Anim</a></li>
+        <li><a href="quiz.html">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="../index.html"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li><a href="learn-html.html"><span class="menu-icon">📄</span>HTML入門</a></li>
+      <li><a href="learn-css.html"><span class="menu-icon">🎨</span>CSS入門</a></li>
+      <li><a href="learn-js.html"><span class="menu-icon">⚡</span>JavaScript入門</a></li>
+      <li><a href="cheatsheet.html" class="active"><span class="menu-icon">📋</span>チートシート</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="cheatsheet-container">
+      <div class="tutorial-header">
+        <h1>📋 チートシート</h1>
+        <p class="tutorial-intro">よく使うHTML・CSS・JavaScriptのリファレンス集です。</p>
+      </div>
+
+      <div class="cheatsheet-tabs">
+        <button class="cheatsheet-tab active" data-tab="html">HTML</button>
+        <button class="cheatsheet-tab" data-tab="css">CSS</button>
+        <button class="cheatsheet-tab" data-tab="js">JavaScript</button>
+      </div>
+
+      <!-- HTML チートシート -->
+      <div class="cheatsheet-content active" id="html-cheatsheet">
+        <section class="cheatsheet-section">
+          <h2>基本構造</h2>
+          <div class="cheatsheet-code">
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;タイトル&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- コンテンツ --&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>テキスト関連タグ</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;h1&gt;~&lt;h6&gt;</code></td><td>見出し（h1が最大）</td></tr>
+              <tr><td><code>&lt;p&gt;</code></td><td>段落</td></tr>
+              <tr><td><code>&lt;br&gt;</code></td><td>改行</td></tr>
+              <tr><td><code>&lt;hr&gt;</code></td><td>水平線</td></tr>
+              <tr><td><code>&lt;strong&gt;</code></td><td>重要なテキスト（太字）</td></tr>
+              <tr><td><code>&lt;em&gt;</code></td><td>強調（斜体）</td></tr>
+              <tr><td><code>&lt;mark&gt;</code></td><td>ハイライト</td></tr>
+              <tr><td><code>&lt;del&gt;</code></td><td>削除線</td></tr>
+              <tr><td><code>&lt;ins&gt;</code></td><td>挿入（下線）</td></tr>
+              <tr><td><code>&lt;code&gt;</code></td><td>コード</td></tr>
+              <tr><td><code>&lt;pre&gt;</code></td><td>整形済みテキスト</td></tr>
+              <tr><td><code>&lt;blockquote&gt;</code></td><td>引用</td></tr>
+              <tr><td><code>&lt;span&gt;</code></td><td>インライン要素（装飾用）</td></tr>
+              <tr><td><code>&lt;div&gt;</code></td><td>ブロック要素（グループ化用）</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>リンク・画像・メディア</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;a href="URL"&gt;</code></td><td>リンク</td></tr>
+              <tr><td><code>&lt;a href="#id"&gt;</code></td><td>ページ内リンク</td></tr>
+              <tr><td><code>&lt;a target="_blank"&gt;</code></td><td>新しいタブで開く</td></tr>
+              <tr><td><code>&lt;img src="" alt=""&gt;</code></td><td>画像</td></tr>
+              <tr><td><code>&lt;video&gt;</code></td><td>動画</td></tr>
+              <tr><td><code>&lt;audio&gt;</code></td><td>音声</td></tr>
+              <tr><td><code>&lt;iframe&gt;</code></td><td>埋め込みフレーム</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>リスト</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;ul&gt;</code></td><td>順序なしリスト</td></tr>
+              <tr><td><code>&lt;ol&gt;</code></td><td>順序ありリスト</td></tr>
+              <tr><td><code>&lt;li&gt;</code></td><td>リスト項目</td></tr>
+              <tr><td><code>&lt;dl&gt;</code></td><td>定義リスト</td></tr>
+              <tr><td><code>&lt;dt&gt;</code></td><td>定義語</td></tr>
+              <tr><td><code>&lt;dd&gt;</code></td><td>定義説明</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>テーブル</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;table&gt;</code></td><td>テーブル</td></tr>
+              <tr><td><code>&lt;thead&gt;</code></td><td>ヘッダー部</td></tr>
+              <tr><td><code>&lt;tbody&gt;</code></td><td>本体部</td></tr>
+              <tr><td><code>&lt;tfoot&gt;</code></td><td>フッター部</td></tr>
+              <tr><td><code>&lt;tr&gt;</code></td><td>行</td></tr>
+              <tr><td><code>&lt;th&gt;</code></td><td>見出しセル</td></tr>
+              <tr><td><code>&lt;td&gt;</code></td><td>データセル</td></tr>
+              <tr><td><code>colspan="n"</code></td><td>n列結合</td></tr>
+              <tr><td><code>rowspan="n"</code></td><td>n行結合</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>フォーム</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;form&gt;</code></td><td>フォーム</td></tr>
+              <tr><td><code>&lt;input type="text"&gt;</code></td><td>テキスト入力</td></tr>
+              <tr><td><code>&lt;input type="email"&gt;</code></td><td>メール入力</td></tr>
+              <tr><td><code>&lt;input type="password"&gt;</code></td><td>パスワード</td></tr>
+              <tr><td><code>&lt;input type="number"&gt;</code></td><td>数値入力</td></tr>
+              <tr><td><code>&lt;input type="checkbox"&gt;</code></td><td>チェックボックス</td></tr>
+              <tr><td><code>&lt;input type="radio"&gt;</code></td><td>ラジオボタン</td></tr>
+              <tr><td><code>&lt;input type="file"&gt;</code></td><td>ファイル選択</td></tr>
+              <tr><td><code>&lt;input type="submit"&gt;</code></td><td>送信ボタン</td></tr>
+              <tr><td><code>&lt;textarea&gt;</code></td><td>複数行テキスト</td></tr>
+              <tr><td><code>&lt;select&gt;&lt;option&gt;</code></td><td>ドロップダウン</td></tr>
+              <tr><td><code>&lt;label&gt;</code></td><td>ラベル</td></tr>
+              <tr><td><code>&lt;button&gt;</code></td><td>ボタン</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>セマンティックタグ</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>&lt;header&gt;</code></td><td>ヘッダー</td></tr>
+              <tr><td><code>&lt;nav&gt;</code></td><td>ナビゲーション</td></tr>
+              <tr><td><code>&lt;main&gt;</code></td><td>メインコンテンツ</td></tr>
+              <tr><td><code>&lt;article&gt;</code></td><td>独立した記事</td></tr>
+              <tr><td><code>&lt;section&gt;</code></td><td>セクション</td></tr>
+              <tr><td><code>&lt;aside&gt;</code></td><td>サイドバー/補足</td></tr>
+              <tr><td><code>&lt;footer&gt;</code></td><td>フッター</td></tr>
+              <tr><td><code>&lt;figure&gt;</code></td><td>図表</td></tr>
+              <tr><td><code>&lt;figcaption&gt;</code></td><td>図表のキャプション</td></tr>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- CSS チートシート -->
+      <div class="cheatsheet-content" id="css-cheatsheet">
+        <section class="cheatsheet-section">
+          <h2>セレクタ</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>element</code></td><td>要素セレクタ</td></tr>
+              <tr><td><code>.class</code></td><td>クラスセレクタ</td></tr>
+              <tr><td><code>#id</code></td><td>IDセレクタ</td></tr>
+              <tr><td><code>*</code></td><td>全称セレクタ</td></tr>
+              <tr><td><code>A B</code></td><td>子孫セレクタ</td></tr>
+              <tr><td><code>A > B</code></td><td>子セレクタ</td></tr>
+              <tr><td><code>A + B</code></td><td>隣接兄弟セレクタ</td></tr>
+              <tr><td><code>A ~ B</code></td><td>一般兄弟セレクタ</td></tr>
+              <tr><td><code>[attr]</code></td><td>属性セレクタ</td></tr>
+              <tr><td><code>:hover</code></td><td>ホバー時</td></tr>
+              <tr><td><code>:focus</code></td><td>フォーカス時</td></tr>
+              <tr><td><code>:active</code></td><td>アクティブ時</td></tr>
+              <tr><td><code>:first-child</code></td><td>最初の子要素</td></tr>
+              <tr><td><code>:last-child</code></td><td>最後の子要素</td></tr>
+              <tr><td><code>:nth-child(n)</code></td><td>n番目の子要素</td></tr>
+              <tr><td><code>::before</code></td><td>要素の前に挿入</td></tr>
+              <tr><td><code>::after</code></td><td>要素の後に挿入</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>ボックスモデル</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>width / height</code></td><td>幅 / 高さ</td></tr>
+              <tr><td><code>max-width / min-width</code></td><td>最大幅 / 最小幅</td></tr>
+              <tr><td><code>margin</code></td><td>外側の余白</td></tr>
+              <tr><td><code>padding</code></td><td>内側の余白</td></tr>
+              <tr><td><code>border</code></td><td>境界線</td></tr>
+              <tr><td><code>border-radius</code></td><td>角丸</td></tr>
+              <tr><td><code>box-sizing: border-box</code></td><td>padding/border含むサイズ計算</td></tr>
+              <tr><td><code>overflow</code></td><td>はみ出し処理</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>テキスト・フォント</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>color</code></td><td>文字色</td></tr>
+              <tr><td><code>font-size</code></td><td>文字サイズ</td></tr>
+              <tr><td><code>font-weight</code></td><td>文字の太さ</td></tr>
+              <tr><td><code>font-family</code></td><td>フォント</td></tr>
+              <tr><td><code>line-height</code></td><td>行の高さ</td></tr>
+              <tr><td><code>letter-spacing</code></td><td>文字間隔</td></tr>
+              <tr><td><code>text-align</code></td><td>テキスト配置</td></tr>
+              <tr><td><code>text-decoration</code></td><td>下線等の装飾</td></tr>
+              <tr><td><code>text-transform</code></td><td>大文字/小文字変換</td></tr>
+              <tr><td><code>white-space</code></td><td>空白の処理</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>背景</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>background-color</code></td><td>背景色</td></tr>
+              <tr><td><code>background-image</code></td><td>背景画像</td></tr>
+              <tr><td><code>background-size</code></td><td>背景サイズ</td></tr>
+              <tr><td><code>background-position</code></td><td>背景位置</td></tr>
+              <tr><td><code>background-repeat</code></td><td>背景の繰り返し</td></tr>
+              <tr><td><code>background: linear-gradient()</code></td><td>グラデーション</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>Flexbox</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>display: flex</code></td><td>Flexコンテナ化</td></tr>
+              <tr><td><code>flex-direction</code></td><td>row / column</td></tr>
+              <tr><td><code>justify-content</code></td><td>主軸の配置</td></tr>
+              <tr><td><code>align-items</code></td><td>交差軸の配置</td></tr>
+              <tr><td><code>flex-wrap</code></td><td>折り返し</td></tr>
+              <tr><td><code>gap</code></td><td>間隔</td></tr>
+              <tr><td><code>flex-grow</code></td><td>伸び率</td></tr>
+              <tr><td><code>flex-shrink</code></td><td>縮み率</td></tr>
+              <tr><td><code>flex-basis</code></td><td>基本サイズ</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>CSS Grid</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>display: grid</code></td><td>Gridコンテナ化</td></tr>
+              <tr><td><code>grid-template-columns</code></td><td>列の定義</td></tr>
+              <tr><td><code>grid-template-rows</code></td><td>行の定義</td></tr>
+              <tr><td><code>gap / row-gap / column-gap</code></td><td>間隔</td></tr>
+              <tr><td><code>grid-column</code></td><td>列の配置</td></tr>
+              <tr><td><code>grid-row</code></td><td>行の配置</td></tr>
+              <tr><td><code>repeat(n, size)</code></td><td>繰り返し</td></tr>
+              <tr><td><code>1fr</code></td><td>1フラクション（比率単位）</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>配置・表示</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>display</code></td><td>block / inline / none / flex / grid</td></tr>
+              <tr><td><code>position</code></td><td>static / relative / absolute / fixed / sticky</td></tr>
+              <tr><td><code>top / right / bottom / left</code></td><td>位置指定</td></tr>
+              <tr><td><code>z-index</code></td><td>重なり順</td></tr>
+              <tr><td><code>visibility</code></td><td>visible / hidden</td></tr>
+              <tr><td><code>opacity</code></td><td>透明度 (0〜1)</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>トランジション・アニメーション</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>transition</code></td><td>property duration timing-function</td></tr>
+              <tr><td><code>transform</code></td><td>translate / rotate / scale / skew</td></tr>
+              <tr><td><code>animation</code></td><td>name duration timing-function iteration</td></tr>
+              <tr><td><code>@keyframes</code></td><td>アニメーション定義</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>単位</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>px</code></td><td>ピクセル（固定）</td></tr>
+              <tr><td><code>%</code></td><td>親要素に対する割合</td></tr>
+              <tr><td><code>em</code></td><td>親要素のfont-sizeに対する倍率</td></tr>
+              <tr><td><code>rem</code></td><td>ルートのfont-sizeに対する倍率</td></tr>
+              <tr><td><code>vw / vh</code></td><td>ビューポートの幅/高さの%</td></tr>
+              <tr><td><code>fr</code></td><td>フラクション（Grid用）</td></tr>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- JavaScript チートシート -->
+      <div class="cheatsheet-content" id="js-cheatsheet">
+        <section class="cheatsheet-section">
+          <h2>変数宣言</h2>
+          <div class="cheatsheet-code">
+            <pre><code>const name = "定数";    // 再代入不可（推奨）
+let count = 0;         // 再代入可能
+var old = "古い書き方"; // 非推奨</code></pre>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>データ型</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>"文字列"</code></td><td>String</td></tr>
+              <tr><td><code>123</code></td><td>Number</td></tr>
+              <tr><td><code>true / false</code></td><td>Boolean</td></tr>
+              <tr><td><code>null</code></td><td>意図的な空</td></tr>
+              <tr><td><code>undefined</code></td><td>未定義</td></tr>
+              <tr><td><code>[1, 2, 3]</code></td><td>Array</td></tr>
+              <tr><td><code>{key: value}</code></td><td>Object</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>演算子</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>+ - * / %</code></td><td>算術演算子</td></tr>
+              <tr><td><code>**</code></td><td>累乗</td></tr>
+              <tr><td><code>=== !==</code></td><td>厳密等価（型も比較）★推奨</td></tr>
+              <tr><td><code>== !=</code></td><td>等価（型変換あり）</td></tr>
+              <tr><td><code>&lt; &gt; &lt;= &gt;=</code></td><td>比較演算子</td></tr>
+              <tr><td><code>&& || !</code></td><td>論理演算子（AND/OR/NOT）</td></tr>
+              <tr><td><code>??</code></td><td>Null合体演算子</td></tr>
+              <tr><td><code>?.</code></td><td>オプショナルチェーン</td></tr>
+              <tr><td><code>? :</code></td><td>三項演算子</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>文字列メソッド</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>.length</code></td><td>文字数</td></tr>
+              <tr><td><code>.toUpperCase()</code></td><td>大文字に変換</td></tr>
+              <tr><td><code>.toLowerCase()</code></td><td>小文字に変換</td></tr>
+              <tr><td><code>.trim()</code></td><td>前後の空白を削除</td></tr>
+              <tr><td><code>.split(区切り)</code></td><td>配列に分割</td></tr>
+              <tr><td><code>.slice(start, end)</code></td><td>部分文字列を取得</td></tr>
+              <tr><td><code>.includes(文字)</code></td><td>含むか判定</td></tr>
+              <tr><td><code>.replace(old, new)</code></td><td>置換</td></tr>
+              <tr><td><code>.startsWith()</code></td><td>〜で始まるか</td></tr>
+              <tr><td><code>.endsWith()</code></td><td>〜で終わるか</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>配列メソッド</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>.length</code></td><td>要素数</td></tr>
+              <tr><td><code>.push()</code></td><td>末尾に追加</td></tr>
+              <tr><td><code>.pop()</code></td><td>末尾を削除</td></tr>
+              <tr><td><code>.unshift()</code></td><td>先頭に追加</td></tr>
+              <tr><td><code>.shift()</code></td><td>先頭を削除</td></tr>
+              <tr><td><code>.map(fn)</code></td><td>各要素を変換</td></tr>
+              <tr><td><code>.filter(fn)</code></td><td>条件で絞り込み</td></tr>
+              <tr><td><code>.find(fn)</code></td><td>条件に合う最初の要素</td></tr>
+              <tr><td><code>.findIndex(fn)</code></td><td>条件に合う最初のインデックス</td></tr>
+              <tr><td><code>.reduce(fn, init)</code></td><td>1つの値にまとめる</td></tr>
+              <tr><td><code>.forEach(fn)</code></td><td>各要素に処理</td></tr>
+              <tr><td><code>.includes()</code></td><td>含むか判定</td></tr>
+              <tr><td><code>.indexOf()</code></td><td>インデックスを取得</td></tr>
+              <tr><td><code>.join(区切り)</code></td><td>文字列に結合</td></tr>
+              <tr><td><code>.sort()</code></td><td>ソート</td></tr>
+              <tr><td><code>.reverse()</code></td><td>逆順</td></tr>
+              <tr><td><code>.slice(start, end)</code></td><td>部分配列を取得</td></tr>
+              <tr><td><code>.splice(start, count)</code></td><td>要素を削除/挿入</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>関数</h2>
+          <div class="cheatsheet-code">
+            <pre><code>// 関数宣言
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+// アロー関数
+const greet = (name) => `Hello, ${name}!`;
+
+// デフォルト引数
+const greet = (name = "Guest") => `Hello, ${name}!`;</code></pre>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>条件分岐・ループ</h2>
+          <div class="cheatsheet-code">
+            <pre><code>// if文
+if (条件) {
+  // 処理
+} else if (条件2) {
+  // 処理
+} else {
+  // 処理
+}
+
+// 三項演算子
+const result = 条件 ? "真" : "偽";
+
+// for文
+for (let i = 0; i < 10; i++) { }
+
+// for...of（配列用）
+for (const item of array) { }
+
+// for...in（オブジェクト用）
+for (const key in object) { }
+
+// while文
+while (条件) { }</code></pre>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>DOM操作</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>document.querySelector()</code></td><td>セレクタで1つ取得</td></tr>
+              <tr><td><code>document.querySelectorAll()</code></td><td>セレクタで全て取得</td></tr>
+              <tr><td><code>document.getElementById()</code></td><td>IDで取得</td></tr>
+              <tr><td><code>.textContent</code></td><td>テキスト内容</td></tr>
+              <tr><td><code>.innerHTML</code></td><td>HTML内容</td></tr>
+              <tr><td><code>.classList.add/remove/toggle</code></td><td>クラス操作</td></tr>
+              <tr><td><code>.style.property</code></td><td>スタイル変更</td></tr>
+              <tr><td><code>.setAttribute()</code></td><td>属性を設定</td></tr>
+              <tr><td><code>.getAttribute()</code></td><td>属性を取得</td></tr>
+              <tr><td><code>.addEventListener()</code></td><td>イベントリスナー追加</td></tr>
+              <tr><td><code>.appendChild()</code></td><td>子要素を追加</td></tr>
+              <tr><td><code>.remove()</code></td><td>要素を削除</td></tr>
+              <tr><td><code>document.createElement()</code></td><td>要素を作成</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>イベント</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>click</code></td><td>クリック</td></tr>
+              <tr><td><code>dblclick</code></td><td>ダブルクリック</td></tr>
+              <tr><td><code>mouseover / mouseout</code></td><td>マウスオーバー/アウト</td></tr>
+              <tr><td><code>mousedown / mouseup</code></td><td>マウスボタン押下/離す</td></tr>
+              <tr><td><code>keydown / keyup</code></td><td>キー押下/離す</td></tr>
+              <tr><td><code>input</code></td><td>入力時</td></tr>
+              <tr><td><code>change</code></td><td>値変更時</td></tr>
+              <tr><td><code>submit</code></td><td>フォーム送信</td></tr>
+              <tr><td><code>focus / blur</code></td><td>フォーカス/外れ</td></tr>
+              <tr><td><code>scroll</code></td><td>スクロール</td></tr>
+              <tr><td><code>load</code></td><td>読み込み完了</td></tr>
+              <tr><td><code>DOMContentLoaded</code></td><td>DOM構築完了</td></tr>
+            </table>
+          </div>
+        </section>
+
+        <section class="cheatsheet-section">
+          <h2>よく使うメソッド</h2>
+          <div class="cheatsheet-table">
+            <table>
+              <tr><td><code>console.log()</code></td><td>コンソール出力</td></tr>
+              <tr><td><code>alert()</code></td><td>アラート表示</td></tr>
+              <tr><td><code>confirm()</code></td><td>確認ダイアログ</td></tr>
+              <tr><td><code>prompt()</code></td><td>入力ダイアログ</td></tr>
+              <tr><td><code>setTimeout(fn, ms)</code></td><td>遅延実行</td></tr>
+              <tr><td><code>setInterval(fn, ms)</code></td><td>繰り返し実行</td></tr>
+              <tr><td><code>JSON.parse()</code></td><td>JSONを解析</td></tr>
+              <tr><td><code>JSON.stringify()</code></td><td>JSONに変換</td></tr>
+              <tr><td><code>localStorage.setItem()</code></td><td>ローカルストレージに保存</td></tr>
+              <tr><td><code>localStorage.getItem()</code></td><td>ローカルストレージから取得</td></tr>
+              <tr><td><code>fetch()</code></td><td>HTTP通信</td></tr>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+          icon.classList.toggle("active", icon.dataset.theme === newTheme);
+        });
+      });
+      document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+        icon.classList.toggle("active", icon.dataset.theme === savedTheme);
+      });
+
+      // ハンバーガーメニュー
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      hamburger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) closeMenu();
+      });
+      mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+      // タブ切り替え
+      const tabs = document.querySelectorAll('.cheatsheet-tab');
+      const contents = document.querySelectorAll('.cheatsheet-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+
+          tab.classList.add('active');
+          document.getElementById(`${tab.dataset.tab}-cheatsheet`).classList.add('active');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

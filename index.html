@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webデザイン学習 - 実践問題</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html" class="logo"><img src="logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">🏠 ホーム</a></li>
+        <li><a href="pages/html-exercises.html">📄 HTML</a></li>
+        <li><a href="pages/css-exercises.html">🎨 CSS</a></li>
+        <li><a href="pages/layout-exercises.html">📐 レイアウト</a></li>
+        <li><a href="pages/js-exercises.html">⚡ JS</a></li>
+        <li><a href="pages/dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="pages/responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="pages/project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="pages/api-exercises.html">🌐 API</a></li>
+        <li><a href="pages/a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="pages/animation-exercises.html">✨ Anim</a></li>
+        <li><a href="pages/quiz.html">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="index.html" class="active"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li class="menu-divider">📖 学ぶ</li>
+      <li><a href="pages/learn-html.html"><span class="menu-icon">📄</span>HTML入門</a></li>
+      <li><a href="pages/learn-css.html"><span class="menu-icon">🎨</span>CSS入門</a></li>
+      <li><a href="pages/learn-js.html"><span class="menu-icon">⚡</span>JavaScript入門</a></li>
+      <li><a href="pages/cheatsheet.html"><span class="menu-icon">📋</span>チートシート</a></li>
+      <li class="menu-divider">✏️ 練習</li>
+      <li><a href="pages/html-exercises.html"><span class="menu-icon">📄</span>HTML問題</a></li>
+      <li><a href="pages/css-exercises.html"><span class="menu-icon">🎨</span>CSS問題</a></li>
+      <li><a href="pages/js-exercises.html"><span class="menu-icon">⚡</span>JavaScript問題</a></li>
+      <li><a href="pages/quiz.html"><span class="menu-icon">❓</span>一問一答クイズ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>🎯 コードを書いて学ぼう</h1>
+      <p>実際に手を動かして、HTML・CSS・JavaScriptをマスターしよう</p>
+    </section>
+
+    <section class="learn-section">
+      <h2>📖 まずは学ぶ</h2>
+      <div class="learn-grid">
+        <a href="pages/learn-html.html" class="learn-card">
+          <div class="learn-icon">📄</div>
+          <div class="learn-content">
+            <h3>HTML入門</h3>
+            <p>Webページの構造を学ぶ</p>
+          </div>
+        </a>
+        <a href="pages/learn-css.html" class="learn-card">
+          <div class="learn-icon">🎨</div>
+          <div class="learn-content">
+            <h3>CSS入門</h3>
+            <p>デザインとスタイリングを学ぶ</p>
+          </div>
+        </a>
+        <a href="pages/learn-js.html" class="learn-card">
+          <div class="learn-icon">⚡</div>
+          <div class="learn-content">
+            <h3>JavaScript入門</h3>
+            <p>動きとインタラクションを学ぶ</p>
+          </div>
+        </a>
+        <a href="pages/cheatsheet.html" class="learn-card cheatsheet">
+          <div class="learn-icon">📋</div>
+          <div class="learn-content">
+            <h3>チートシート</h3>
+            <p>よく使うコードの早見表</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="courses">
+      <h2>✏️ 問題を解く</h2>
+      <div class="course-grid">
+        <a href="pages/html-exercises.html" class="course-card">
+          <div class="course-icon"><span>&lt;/&gt;</span></div>
+          <h3>HTML問題</h3>
+          <p>タグの使い方、構造の作り方を実践</p>
+          <div class="progress-bar">
+            <div class="progress" id="html-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 36 問完了</span>
+        </a>
+        <a href="pages/css-exercises.html" class="course-card">
+          <div class="course-icon"><span>{ }</span></div>
+          <h3>CSS問題</h3>
+          <p>スタイリング、装飾を実践</p>
+          <div class="progress-bar">
+            <div class="progress" id="css-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 36 問完了</span>
+        </a>
+        <a href="pages/layout-exercises.html" class="course-card">
+          <div class="course-icon"><span>⊞</span></div>
+          <h3>レイアウト問題</h3>
+          <p>Flexbox、Grid、実践的な配置</p>
+          <div class="progress-bar">
+            <div class="progress" id="layout-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 20 問完了</span>
+        </a>
+        <a href="pages/js-exercises.html" class="course-card">
+          <div class="course-icon"><span>JS</span></div>
+          <h3>JavaScript問題</h3>
+          <p>変数、関数、配列、オブジェクト</p>
+          <div class="progress-bar">
+            <div class="progress" id="js-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 26 問完了</span>
+        </a>
+        <a href="pages/dom-exercises.html" class="course-card">
+          <div class="course-icon"><span>◉</span></div>
+          <h3>DOM操作問題</h3>
+          <p>要素取得、イベント、動的操作</p>
+          <div class="progress-bar">
+            <div class="progress" id="dom-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 26 問完了</span>
+        </a>
+        <a href="pages/responsive-exercises.html" class="course-card">
+          <div class="course-icon"><span>📱</span></div>
+          <h3>レスポンシブ問題</h3>
+          <p>メディアクエリ、モバイル対応</p>
+          <div class="progress-bar">
+            <div class="progress" id="responsive-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 26 問完了</span>
+        </a>
+        <a href="pages/project-exercises.html" class="course-card">
+          <div class="course-icon"><span>🚀</span></div>
+          <h3>実践プロジェクト</h3>
+          <p>HTML+CSS+JS統合、実践的なUI</p>
+          <div class="progress-bar">
+            <div class="progress" id="project-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 26 問完了</span>
+        </a>
+        <a href="pages/api-exercises.html" class="course-card">
+          <div class="course-icon"><span>⚡</span></div>
+          <h3>Web API問題</h3>
+          <p>Fetch、LocalStorage、非同期処理</p>
+          <div class="progress-bar">
+            <div class="progress" id="api-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 26 問完了</span>
+        </a>
+        <a href="pages/a11y-exercises.html" class="course-card">
+          <div class="course-icon"><span>♿</span></div>
+          <h3>アクセシビリティ</h3>
+          <p>ARIA、キーボード操作、スクリーンリーダー</p>
+          <div class="progress-bar">
+            <div class="progress" id="a11y-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 20 問完了</span>
+        </a>
+        <a href="pages/animation-exercises.html" class="course-card">
+          <div class="course-icon"><span>✨</span></div>
+          <h3>CSSアニメーション</h3>
+          <p>トランジション、キーフレーム、変形</p>
+          <div class="progress-bar">
+            <div class="progress" id="animation-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">0 / 20 問完了</span>
+        </a>
+        <a href="pages/quiz.html" class="course-card">
+          <div class="course-icon"><span>❓</span></div>
+          <h3>一問一答クイズ</h3>
+          <p>HTML・CSS・JSの知識をテスト</p>
+          <div class="progress-bar">
+            <div class="progress" id="quiz-progress" style="width: 0%"></div>
+          </div>
+          <span class="progress-text">120問収録</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="reset-section">
+      <button class="btn btn-reset" id="reset-all-btn">🔄 すべての進捗をリセット</button>
+    </section>
+
+    <section class="how-to">
+      <h2>📖 学習の進め方</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>📝 問題を読む</h3>
+          <p>何を作るか確認しよう</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>⌨️ コードを書く</h3>
+          <p>エディタに入力しよう</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>👀 結果を確認</h3>
+          <p>プレビューで動作確認</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>✅ 答え合わせ</h3>
+          <p>正解と比較しよう</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script>
+    // 進捗の読み込み
+    document.addEventListener('DOMContentLoaded', () => {
+      const htmlCompleted = JSON.parse(localStorage.getItem('html-completed') || '[]');
+      const cssCompleted = JSON.parse(localStorage.getItem('css-completed') || '[]');
+      const layoutCompleted = JSON.parse(localStorage.getItem('layout-completed') || '[]');
+      const jsCompleted = JSON.parse(localStorage.getItem('js-completed') || '[]');
+      const domCompleted = JSON.parse(localStorage.getItem('dom-completed') || '[]');
+      const responsiveCompleted = JSON.parse(localStorage.getItem('responsive-completed') || '[]');
+      const projectCompleted = JSON.parse(localStorage.getItem('project-completed') || '[]');
+      const apiCompleted = JSON.parse(localStorage.getItem('api-completed') || '[]');
+      const a11yCompleted = JSON.parse(localStorage.getItem('a11y-completed') || '[]');
+      const animationCompleted = JSON.parse(localStorage.getItem('animation-completed') || '[]');
+
+      document.getElementById('html-progress').style.width = (htmlCompleted.length / 36 * 100) + '%';
+      document.getElementById('css-progress').style.width = (cssCompleted.length / 36 * 100) + '%';
+      document.getElementById('layout-progress').style.width = (layoutCompleted.length / 20 * 100) + '%';
+      document.getElementById('js-progress').style.width = (jsCompleted.length / 26 * 100) + '%';
+      document.getElementById('dom-progress').style.width = (domCompleted.length / 26 * 100) + '%';
+      document.getElementById('responsive-progress').style.width = (responsiveCompleted.length / 26 * 100) + '%';
+      document.getElementById('project-progress').style.width = (projectCompleted.length / 26 * 100) + '%';
+      document.getElementById('api-progress').style.width = (apiCompleted.length / 26 * 100) + '%';
+      document.getElementById('a11y-progress').style.width = (a11yCompleted.length / 20 * 100) + '%';
+      document.getElementById('animation-progress').style.width = (animationCompleted.length / 20 * 100) + '%';
+
+      document.querySelectorAll('.progress-text')[0].textContent = `${htmlCompleted.length} / 36 問完了`;
+      document.querySelectorAll('.progress-text')[1].textContent = `${cssCompleted.length} / 36 問完了`;
+      document.querySelectorAll('.progress-text')[2].textContent = `${layoutCompleted.length} / 20 問完了`;
+      document.querySelectorAll('.progress-text')[3].textContent = `${jsCompleted.length} / 26 問完了`;
+      document.querySelectorAll('.progress-text')[4].textContent = `${domCompleted.length} / 26 問完了`;
+      document.querySelectorAll('.progress-text')[5].textContent = `${responsiveCompleted.length} / 26 問完了`;
+      document.querySelectorAll('.progress-text')[6].textContent = `${projectCompleted.length} / 26 問完了`;
+      document.querySelectorAll('.progress-text')[7].textContent = `${apiCompleted.length} / 26 問完了`;
+      document.querySelectorAll('.progress-text')[8].textContent = `${a11yCompleted.length} / 20 問完了`;
+      document.querySelectorAll('.progress-text')[9].textContent = `${animationCompleted.length} / 20 問完了`;
+
+      // 全進捗リセット
+      document.getElementById('reset-all-btn').addEventListener('click', () => {
+        if (confirm('すべての進捗をリセットしますか？')) {
+          localStorage.removeItem('html-completed');
+          localStorage.removeItem('css-completed');
+          localStorage.removeItem('layout-completed');
+          localStorage.removeItem('js-completed');
+          localStorage.removeItem('dom-completed');
+          localStorage.removeItem('responsive-completed');
+          localStorage.removeItem('project-completed');
+          localStorage.removeItem('api-completed');
+          localStorage.removeItem('a11y-completed');
+          localStorage.removeItem('animation-completed');
+          location.reload();
+        }
+      });
+
+      // テーマ切り替え
+      initTheme();
+    });
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      setTheme(savedTheme);
+
+      document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const icons = document.querySelectorAll('.theme-toggle-icon');
+      icons.forEach(icon => {
+        icon.classList.toggle('active', icon.dataset.theme === theme);
+      });
+    }
+
+    // ハンバーガーメニュー
+    function initMobileMenu() {
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+
+      if (!hamburger || !mobileMenu || !overlay) return;
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      // ESCキーでメニューを閉じる
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+          closeMenu();
+        }
+      });
+
+      // リンククリックでメニューを閉じる
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+    }
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+  </script>
+  <script>
+    // ページ読み込み前にテーマを適用（ちらつき防止）
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</body>
+</html>

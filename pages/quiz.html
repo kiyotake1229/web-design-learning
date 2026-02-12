@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一問一答クイズ - Webデザイン学習</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* クイズ専用スタイル */
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .quiz-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .quiz-tab {
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border-color);
+      background: var(--glass-bg);
+      color: var(--text-secondary);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .quiz-tab:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+
+    .quiz-tab.active {
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .quiz-score {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      background: var(--glass-bg);
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .quiz-score-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .quiz-score-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .quiz-card {
+      background: var(--glass-bg);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-number {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .quiz-question {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .quiz-question code {
+      background: var(--bg-primary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: "Fira Code", monospace;
+      color: var(--accent-primary);
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quiz-option {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .quiz-option:hover:not(.disabled) {
+      border-color: var(--accent-primary);
+      background: var(--bg-hover);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--accent-primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .quiz-option.incorrect {
+      border-color: var(--error);
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .quiz-option.disabled {
+      cursor: default;
+    }
+
+    .quiz-option-marker {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .quiz-option.correct .quiz-option-marker {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .quiz-option.incorrect .quiz-option-marker {
+      background: var(--error);
+      color: #fff;
+    }
+
+    .quiz-option-text {
+      flex: 1;
+      color: var(--text-primary);
+    }
+
+    .quiz-option-text code {
+      background: var(--bg-primary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: "Fira Code", monospace;
+      font-size: 0.9em;
+    }
+
+    .quiz-result {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .quiz-result.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .quiz-result.correct {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--success);
+    }
+
+    .quiz-result.incorrect {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--error);
+    }
+
+    .quiz-result-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quiz-result.correct .quiz-result-title {
+      color: var(--success);
+    }
+
+    .quiz-result.incorrect .quiz-result-title {
+      color: var(--error);
+    }
+
+    .quiz-result-explanation {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .quiz-result-explanation code {
+      background: var(--bg-primary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: "Fira Code", monospace;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    .quiz-progress {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .quiz-progress-bar {
+      height: 8px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+      background-size: 200% 100%;
+      animation: shimmer 2s linear infinite;
+      transition: width 0.5s ease;
+    }
+
+    .quiz-progress-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* レベルフィルター */
+    .quiz-level-filter {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    /* 完了画面 */
+    .quiz-complete {
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .quiz-complete-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-complete-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz-complete-score {
+      font-size: 1.5rem;
+      color: var(--accent-primary);
+      margin-bottom: 2rem;
+    }
+
+    .quiz-complete-message {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    /* シャッフルボタン */
+    .btn-shuffle {
+      background: var(--glass-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .btn-shuffle:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="../index.html" class="logo"><img src="../logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">🏠 ホーム</a></li>
+        <li><a href="html-exercises.html">📄 HTML</a></li>
+        <li><a href="css-exercises.html">🎨 CSS</a></li>
+        <li><a href="layout-exercises.html">📐 レイアウト</a></li>
+        <li><a href="js-exercises.html">⚡ JS</a></li>
+        <li><a href="dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="api-exercises.html">🌐 API</a></li>
+        <li><a href="a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="animation-exercises.html">✨ Anim</a></li>
+        <li><a href="quiz.html" class="active">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- モバイルメニュー -->
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="../index.html"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li><a href="html-exercises.html"><span class="menu-icon">📄</span>HTML問題</a></li>
+      <li><a href="css-exercises.html"><span class="menu-icon">🎨</span>CSS問題</a></li>
+      <li><a href="layout-exercises.html"><span class="menu-icon">📐</span>レイアウト</a></li>
+      <li><a href="js-exercises.html"><span class="menu-icon">⚡</span>JavaScript</a></li>
+      <li><a href="dom-exercises.html"><span class="menu-icon">🔗</span>DOM操作</a></li>
+      <li><a href="responsive-exercises.html"><span class="menu-icon">📱</span>レスポンシブ</a></li>
+      <li><a href="project-exercises.html"><span class="menu-icon">🚀</span>実践プロジェクト</a></li>
+      <li><a href="api-exercises.html"><span class="menu-icon">🌐</span>Web API</a></li>
+      <li><a href="a11y-exercises.html"><span class="menu-icon">♿</span>アクセシビリティ</a></li>
+      <li><a href="animation-exercises.html"><span class="menu-icon">✨</span>アニメーション</a></li>
+      <li><a href="quiz.html" class="active"><span class="menu-icon">❓</span>一問一答クイズ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="quiz-container">
+      <div class="progress-header">
+        <h2>📚 一問一答クイズ</h2>
+        <div class="progress-stats">
+          <span>正解数: <strong id="correct-count">0</strong> / <span id="total-answered">0</span></span>
+        </div>
+      </div>
+
+      <!-- カテゴリタブ -->
+      <div class="quiz-header">
+        <div class="quiz-tabs">
+          <button class="quiz-tab active" data-category="all">すべて</button>
+          <button class="quiz-tab" data-category="html">HTML</button>
+          <button class="quiz-tab" data-category="css">CSS</button>
+          <button class="quiz-tab" data-category="js">JavaScript</button>
+        </div>
+        <button class="btn btn-shuffle" id="shuffle-btn">🔀 シャッフル</button>
+      </div>
+
+      <!-- レベルフィルター -->
+      <div class="quiz-level-filter" id="level-filter">
+        <button class="filter-btn active" data-level="all">すべて</button>
+        <button class="filter-btn" data-level="1" style="--level-color: #27ae60">入門</button>
+        <button class="filter-btn" data-level="2" style="--level-color: #3498db">初級</button>
+        <button class="filter-btn" data-level="3" style="--level-color: #f39c12">中級</button>
+        <button class="filter-btn" data-level="4" style="--level-color: #e67e22">上級</button>
+      </div>
+
+      <!-- 進捗バー -->
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quiz-progress" style="width: 0%"></div>
+        </div>
+        <span class="quiz-progress-text"><span id="current-num">1</span> / <span id="total-num">0</span> 問</span>
+      </div>
+
+      <!-- クイズカード -->
+      <div class="quiz-card" id="quiz-card">
+        <div class="quiz-meta">
+          <span class="level-badge" id="quiz-level">入門</span>
+          <span class="quiz-number" id="quiz-category">HTML</span>
+        </div>
+        <div class="quiz-question" id="quiz-question">
+          問題文がここに表示されます
+        </div>
+        <div class="quiz-options" id="quiz-options">
+          <!-- 選択肢がここに生成される -->
+        </div>
+        <div class="quiz-result" id="quiz-result">
+          <div class="quiz-result-title" id="result-title"></div>
+          <div class="quiz-result-explanation" id="result-explanation"></div>
+        </div>
+        <div class="quiz-actions" id="quiz-actions" style="display: none;">
+          <button class="btn btn-primary" id="next-btn">次の問題 →</button>
+        </div>
+      </div>
+
+      <!-- 完了画面 -->
+      <div class="quiz-card quiz-complete" id="quiz-complete" style="display: none;">
+        <div class="quiz-complete-icon">🎉</div>
+        <div class="quiz-complete-title">クイズ完了！</div>
+        <div class="quiz-complete-score" id="final-score">10 / 10 問正解</div>
+        <div class="quiz-complete-message" id="complete-message">素晴らしい！</div>
+        <button class="btn btn-primary" id="restart-btn">もう一度挑戦</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script>
+    // クイズデータ
+        const quizData = [
+      // ===== HTML 入門 (レベル1) 10問 =====
+      {
+        category: 'html',
+        level: 1,
+        question: 'HTMLの略称は何ですか？',
+        options: ['Hyper Text Markup Language', 'High Tech Modern Language', 'Home Tool Markup Language', 'Hyperlink Text Making Language'],
+        answer: 0,
+        explanation: 'HTMLは「Hyper Text Markup Language」の略で、Webページを作成するためのマークアップ言語です。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: '最も大きな見出しを作るタグはどれですか？',
+        options: ['<h6>', '<h1>', '<header>', '<heading>'],
+        answer: 1,
+        explanation: '<code>&lt;h1&gt;</code>が最大の見出しで、<code>&lt;h6&gt;</code>が最小です。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: '段落を作成するタグはどれですか？',
+        options: ['<paragraph>', '<text>', '<p>', '<para>'],
+        answer: 2,
+        explanation: '<code>&lt;p&gt;</code>タグは「paragraph（段落）」の略です。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: '改行を入れるタグはどれですか？',
+        options: ['<break>', '<br>', '<lb>', '<newline>'],
+        answer: 1,
+        explanation: '<code>&lt;br&gt;</code>は「break」の略で、改行を挿入します。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: 'リンクを作成するタグはどれですか？',
+        options: ['<link>', '<a>', '<href>', '<url>'],
+        answer: 1,
+        explanation: '<code>&lt;a&gt;</code>タグは「anchor（アンカー）」の略です。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: 'HTMLファイルの拡張子は？',
+        options: ['.htm または .html', '.web', '.page', '.doc'],
+        answer: 0,
+        explanation: 'HTMLファイルは<code>.html</code>または<code>.htm</code>の拡張子を使います。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: 'HTML文書の基本構造で、本文を囲むタグは？',
+        options: ['<main>', '<content>', '<body>', '<text>'],
+        answer: 2,
+        explanation: '<code>&lt;body&gt;</code>タグがページの本文を囲みます。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: 'ページのタイトルを設定するタグは？',
+        options: ['<heading>', '<name>', '<title>', '<header>'],
+        answer: 2,
+        explanation: '<code>&lt;title&gt;</code>タグはブラウザのタブに表示されるタイトルを設定します。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: '太字にするタグはどれ？',
+        options: ['<bold>', '<b>', '<strong>', '<b>と<strong>両方'],
+        answer: 3,
+        explanation: '<code>&lt;b&gt;</code>と<code>&lt;strong&gt;</code>の両方で太字になります。'
+      },
+      {
+        category: 'html',
+        level: 1,
+        question: '斜体にするタグはどれ？',
+        options: ['<italic>', '<i>', '<slant>', '<em>'],
+        answer: 1,
+        explanation: '<code>&lt;i&gt;</code>や<code>&lt;em&gt;</code>で斜体にできます。'
+      },
+
+      // ===== HTML 初級 (レベル2) 10問 =====
+      {
+        category: 'html',
+        level: 2,
+        question: '画像を表示するタグの必須属性は？',
+        options: ['href', 'src', 'link', 'image'],
+        answer: 1,
+        explanation: '<code>src</code>属性は「source」の略で、画像のパスを指定します。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: '順序なしリストを作るタグは？',
+        options: ['<ol>', '<ul>', '<li>', '<list>'],
+        answer: 1,
+        explanation: '<code>&lt;ul&gt;</code>は「unordered list」の略です。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'テーブルの行を定義するタグは？',
+        options: ['<td>', '<th>', '<tr>', '<table>'],
+        answer: 2,
+        explanation: '<code>&lt;tr&gt;</code>は「table row」の略です。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'フォームの送信ボタンのtype属性の値は？',
+        options: ['button', 'send', 'submit', 'form'],
+        answer: 2,
+        explanation: '<code>type="submit"</code>でフォームを送信するボタンになります。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'HTMLでコメントを書く正しい方法は？',
+        options: ['// コメント', '/* コメント */', '<!-- コメント -->', '# コメント'],
+        answer: 2,
+        explanation: 'HTMLのコメントは<code>&lt;!-- コメント --&gt;</code>の形式です。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: '順序付きリストを作るタグは？',
+        options: ['<ul>', '<ol>', '<dl>', '<list>'],
+        answer: 1,
+        explanation: '<code>&lt;ol&gt;</code>は「ordered list」の略で、番号付きリストを作ります。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'テーブルのセル（データ）を定義するタグは？',
+        options: ['<tc>', '<td>', '<cell>', '<data>'],
+        answer: 1,
+        explanation: '<code>&lt;td&gt;</code>は「table data」の略です。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'チェックボックスを作るinputのtype属性は？',
+        options: ['type="check"', 'type="checkbox"', 'type="box"', 'type="tick"'],
+        answer: 1,
+        explanation: '<code>type="checkbox"</code>でチェックボックスを作成します。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: '複数行のテキスト入力欄を作るタグは？',
+        options: ['<input type="text">', '<textbox>', '<textarea>', '<multiline>'],
+        answer: 2,
+        explanation: '<code>&lt;textarea&gt;</code>で複数行の入力欄を作ります。'
+      },
+      {
+        category: 'html',
+        level: 2,
+        question: 'リンクを新しいタブで開く属性は？',
+        options: ['target="_new"', 'target="_blank"', 'open="new"', 'newtab="true"'],
+        answer: 1,
+        explanation: '<code>target="_blank"</code>で新しいタブ/ウィンドウで開きます。'
+      },
+
+      // ===== HTML 中級 (レベル3) 10問 =====
+      {
+        category: 'html',
+        level: 3,
+        question: 'セマンティックHTMLで記事を囲むタグは？',
+        options: ['<div>', '<article>', '<section>', '<content>'],
+        answer: 1,
+        explanation: '<code>&lt;article&gt;</code>は独立した記事コンテンツを表します。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'input要素で数値のみを入力させるtype属性は？',
+        options: ['type="int"', 'type="numeric"', 'type="number"', 'type="digit"'],
+        answer: 2,
+        explanation: '<code>type="number"</code>で数値入力専用になります。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'メタデータでページの説明を設定する属性は？',
+        options: ['name="title"', 'name="description"', 'name="summary"', 'name="info"'],
+        answer: 1,
+        explanation: '<code>name="description"</code>はSEOで重要なページの説明です。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'data-*属性の正しい使い方は？',
+        options: ['CSSのスタイル指定', 'カスタムデータの保存', 'JavaScript関数定義', 'HTMLの検証'],
+        answer: 1,
+        explanation: '<code>data-*</code>属性は要素にカスタムデータを保存します。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'ナビゲーションを囲むセマンティックタグは？',
+        options: ['<navigation>', '<nav>', '<menu>', '<links>'],
+        answer: 1,
+        explanation: '<code>&lt;nav&gt;</code>はナビゲーションリンクのセクションを表します。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'フッターを定義するセマンティックタグは？',
+        options: ['<bottom>', '<foot>', '<footer>', '<end>'],
+        answer: 2,
+        explanation: '<code>&lt;footer&gt;</code>はページやセクションのフッターを表します。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: '日付入力用のinput typeは？',
+        options: ['type="calendar"', 'type="date"', 'type="day"', 'type="datetime"'],
+        answer: 1,
+        explanation: '<code>type="date"</code>でカレンダーから日付を選択できます。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: '必須入力にする属性は？',
+        options: ['must', 'required', 'necessary', 'mandatory'],
+        answer: 1,
+        explanation: '<code>required</code>属性で入力必須フィールドになります。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'プレースホルダーテキストを設定する属性は？',
+        options: ['hint', 'placeholder', 'default', 'preview'],
+        answer: 1,
+        explanation: '<code>placeholder</code>属性で入力前のヒントテキストを表示します。'
+      },
+      {
+        category: 'html',
+        level: 3,
+        question: 'メインコンテンツを囲むセマンティックタグは？',
+        options: ['<content>', '<main>', '<primary>', '<body>'],
+        answer: 1,
+        explanation: '<code>&lt;main&gt;</code>はページの主要なコンテンツを囲みます。'
+      },
+
+      // ===== HTML 上級 (レベル4) 10問 =====
+      {
+        category: 'html',
+        level: 4,
+        question: 'picture要素の主な用途は？',
+        options: ['画像のキャプション追加', 'レスポンシブ画像の提供', '画像のアニメーション', '画像の圧縮'],
+        answer: 1,
+        explanation: '<code>&lt;picture&gt;</code>で画面サイズに応じて異なる画像を提供できます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'WAI-ARIAのrole属性の目的は？',
+        options: ['CSSのスタイル指定', 'アクセシビリティの向上', 'SEOの最適化', 'パフォーマンス改善'],
+        answer: 1,
+        explanation: 'role属性はスクリーンリーダーに要素の役割を伝えます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'loading="lazy"属性の効果は？',
+        options: ['画像の品質向上', '画像の遅延読み込み', '画像のキャッシュ', '画像の圧縮'],
+        answer: 1,
+        explanation: '<code>loading="lazy"</code>は画像がビューポートに入るまで読み込みを遅延します。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'dialog要素の特徴として正しいものは？',
+        options: ['コメント用の要素', 'モーダルダイアログを作成できる', '音声再生用の要素', 'テーブル内の対話用'],
+        answer: 1,
+        explanation: '<code>&lt;dialog&gt;</code>でネイティブなモーダルダイアログを作成できます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'template要素の特徴は？',
+        options: ['ページ読み込み時に表示', 'JSで複製して使う', 'CSSでスタイル不可', 'form内でのみ使える'],
+        answer: 1,
+        explanation: '<code>&lt;template&gt;</code>の内容は描画されず、JSでクローンして使います。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'details要素の用途は？',
+        options: ['詳細情報のツールチップ', '開閉可能なコンテンツ', 'メタデータの表示', 'フォームの詳細設定'],
+        answer: 1,
+        explanation: '<code>&lt;details&gt;</code>と<code>&lt;summary&gt;</code>でアコーディオンを作れます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'srcset属性の用途は？',
+        options: ['複数のソースファイル指定', 'レスポンシブ画像の解像度対応', 'ファイルの優先順位', 'フォールバック指定'],
+        answer: 1,
+        explanation: '<code>srcset</code>で異なる解像度の画像を指定できます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'contenteditable属性の効果は？',
+        options: ['コンテンツの暗号化', '要素を編集可能にする', 'コンテンツの保護', 'SEO最適化'],
+        answer: 1,
+        explanation: '<code>contenteditable="true"</code>で要素の内容を直接編集できます。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'output要素の用途は？',
+        options: ['コンソール出力', '計算結果の表示', 'ファイル出力', 'プリント用'],
+        answer: 1,
+        explanation: '<code>&lt;output&gt;</code>は計算結果やスクリプトの出力を表示します。'
+      },
+      {
+        category: 'html',
+        level: 4,
+        question: 'datalist要素の用途は？',
+        options: ['データテーブル作成', '入力候補の提供', 'リストのスタイル', 'データベース接続'],
+        answer: 1,
+        explanation: '<code>&lt;datalist&gt;</code>で入力フィールドにオートコンプリート候補を提供します。'
+      },
+
+      // ===== CSS 入門 (レベル1) 10問 =====
+      {
+        category: 'css',
+        level: 1,
+        question: 'CSSの略称は何ですか？',
+        options: ['Computer Style Sheets', 'Cascading Style Sheets', 'Creative Style System', 'Colorful Style Sheets'],
+        answer: 1,
+        explanation: 'CSSは「Cascading Style Sheets」の略です。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '文字の色を変えるプロパティは？',
+        options: ['text-color', 'font-color', 'color', 'foreground'],
+        answer: 2,
+        explanation: '<code>color</code>プロパティでテキストの色を指定します。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '背景色を変えるプロパティは？',
+        options: ['bg-color', 'background-color', 'back-color', 'bgcolor'],
+        answer: 1,
+        explanation: '<code>background-color</code>で背景色を指定します。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: 'フォントサイズを変えるプロパティは？',
+        options: ['text-size', 'font-size', 'size', 'font-height'],
+        answer: 1,
+        explanation: '<code>font-size</code>で文字の大きさを指定します。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: 'IDセレクタの書き方は？',
+        options: ['.name', '#name', '@name', '*name'],
+        answer: 1,
+        explanation: 'IDセレクタは<code>#</code>を先頭に付けます。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: 'クラスセレクタの書き方は？',
+        options: ['#name', '.name', '@name', '&name'],
+        answer: 1,
+        explanation: 'クラスセレクタは<code>.</code>（ドット）を先頭に付けます。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '太字にするプロパティは？',
+        options: ['text-weight', 'font-bold', 'font-weight', 'bold'],
+        answer: 2,
+        explanation: '<code>font-weight: bold</code>で太字になります。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '下線を引くプロパティは？',
+        options: ['underline', 'text-decoration', 'text-underline', 'font-decoration'],
+        answer: 1,
+        explanation: '<code>text-decoration: underline</code>で下線を引きます。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '幅を指定するプロパティは？',
+        options: ['size', 'width', 'length', 'horizontal'],
+        answer: 1,
+        explanation: '<code>width</code>で要素の幅を指定します。'
+      },
+      {
+        category: 'css',
+        level: 1,
+        question: '高さを指定するプロパティは？',
+        options: ['size', 'tall', 'height', 'vertical'],
+        answer: 2,
+        explanation: '<code>height</code>で要素の高さを指定します。'
+      },
+
+      // ===== CSS 初級 (レベル2) 10問 =====
+      {
+        category: 'css',
+        level: 2,
+        question: 'ボックスの外側の余白を指定するプロパティは？',
+        options: ['padding', 'margin', 'border', 'spacing'],
+        answer: 1,
+        explanation: '<code>margin</code>は外側、<code>padding</code>は内側の余白です。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: '要素を横並びにするdisplayの値は？',
+        options: ['block', 'inline', 'flex', 'horizontal'],
+        answer: 2,
+        explanation: '<code>display: flex</code>で子要素を横並びにできます。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: 'リンクにマウスを乗せた時のスタイルを指定するのは？',
+        options: [':active', ':hover', ':focus', ':visited'],
+        answer: 1,
+        explanation: '<code>:hover</code>はマウスオーバー時のスタイルを指定します。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: 'border-radiusプロパティの効果は？',
+        options: ['枠線の太さ', '枠線の色', '角を丸くする', '枠線のスタイル'],
+        answer: 2,
+        explanation: '<code>border-radius</code>で角を丸くできます。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: 'テキストを中央揃えにするプロパティは？',
+        options: ['text-align: center', 'align: center', 'text-center', 'center-text'],
+        answer: 0,
+        explanation: '<code>text-align: center</code>で中央揃えにします。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: '要素を非表示にするプロパティは？',
+        options: ['visible: false', 'display: none', 'hidden: true', 'show: false'],
+        answer: 1,
+        explanation: '<code>display: none</code>で要素を完全に非表示にします。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: '枠線を設定するプロパティは？',
+        options: ['outline', 'border', 'line', 'frame'],
+        answer: 1,
+        explanation: '<code>border</code>で枠線を設定します。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: '影を付けるプロパティは？',
+        options: ['shadow', 'box-shadow', 'drop-shadow', 'element-shadow'],
+        answer: 1,
+        explanation: '<code>box-shadow</code>でボックスに影を付けます。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: '透明度を変えるプロパティは？',
+        options: ['transparent', 'alpha', 'opacity', 'visibility'],
+        answer: 2,
+        explanation: '<code>opacity</code>で透明度を0〜1で指定します。'
+      },
+      {
+        category: 'css',
+        level: 2,
+        question: 'カーソルの形を変えるプロパティは？',
+        options: ['mouse', 'pointer', 'cursor', 'hand'],
+        answer: 2,
+        explanation: '<code>cursor</code>でマウスカーソルの形状を変更します。'
+      },
+
+      // ===== CSS 中級 (レベル3) 10問 =====
+      {
+        category: 'css',
+        level: 3,
+        question: 'Flexboxで子要素を中央に配置する方法は？',
+        options: ['align: center', 'justify-content: center; align-items: center', 'center: true', 'flex-align: center'],
+        answer: 1,
+        explanation: '<code>justify-content</code>は主軸、<code>align-items</code>は交差軸方向の配置です。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'position: absoluteの基準となる要素は？',
+        options: ['常にbody', '親要素', 'position指定のある最も近い祖先', '兄弟要素'],
+        answer: 2,
+        explanation: 'absoluteはposition指定のある祖先要素を基準にします。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'メディアクエリの正しい書き方は？',
+        options: ['@screen (max-width: 768px)', '@media (max-width: 768px)', '@responsive (768px)', '@query screen-768'],
+        answer: 1,
+        explanation: '<code>@media</code>でレスポンシブの条件分岐を書きます。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'CSS変数を定義する正しい方法は？',
+        options: ['$primary: blue', '--primary: blue', '@primary: blue', 'var-primary: blue'],
+        answer: 1,
+        explanation: 'CSS変数は<code>--</code>で始め、<code>var(--primary)</code>で使用します。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'z-indexが効くための条件は？',
+        options: ['display: block', 'position: static以外', 'overflow: hidden', 'float: left'],
+        answer: 1,
+        explanation: '<code>z-index</code>はpositionがstatic以外の要素にのみ効きます。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'transitionプロパティの用途は？',
+        options: ['要素の移動', 'アニメーションの遷移効果', '画面遷移', 'ページ間移動'],
+        answer: 1,
+        explanation: '<code>transition</code>でプロパティの変化を滑らかにします。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'transformプロパティでできることは？',
+        options: ['色の変換', '回転・拡大・移動', 'フォントの変換', 'レイアウトの変換'],
+        answer: 1,
+        explanation: '<code>transform</code>で回転(rotate)、拡大(scale)、移動(translate)などができます。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'Flexboxでの折り返しを指定するプロパティは？',
+        options: ['flex-break', 'flex-wrap', 'flex-line', 'flex-return'],
+        answer: 1,
+        explanation: '<code>flex-wrap: wrap</code>で複数行に折り返します。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: '最初の子要素を選択する疑似クラスは？',
+        options: [':first', ':first-child', ':first-element', ':initial'],
+        answer: 1,
+        explanation: '<code>:first-child</code>で最初の子要素を選択します。'
+      },
+      {
+        category: 'css',
+        level: 3,
+        question: 'overflow: hiddenの効果は？',
+        options: ['要素を隠す', 'はみ出た部分を非表示', 'スクロールを無効化', '透明にする'],
+        answer: 1,
+        explanation: '<code>overflow: hidden</code>ではみ出た内容を非表示にします。'
+      },
+
+      // ===== CSS 上級 (レベル4) 10問 =====
+      {
+        category: 'css',
+        level: 4,
+        question: 'CSS Gridで2列3行のレイアウトを作る指定は？',
+        options: ['grid: 2 / 3', 'grid-template: repeat(3, 1fr) / repeat(2, 1fr)', 'grid-columns: 2; grid-rows: 3', 'display: grid-2x3'],
+        answer: 1,
+        explanation: '<code>grid-template</code>で行と列のサイズを指定できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'clamp()関数の引数の順序は？',
+        options: ['最大値, 推奨値, 最小値', '推奨値, 最小値, 最大値', '最小値, 推奨値, 最大値', '最小値, 最大値, 推奨値'],
+        answer: 2,
+        explanation: '<code>clamp(最小値, 推奨値, 最大値)</code>の順序です。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'aspect-ratioプロパティの用途は？',
+        options: ['要素の透明度', '要素のアスペクト比を固定', '要素の回転', '要素のスケール'],
+        answer: 1,
+        explanation: '<code>aspect-ratio: 16/9</code>のように縦横比を固定できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: ':is()セレクタの利点は？',
+        options: ['アニメーション定義', 'セレクタのグループ化', '変数の定義', 'メディアクエリ簡略化'],
+        answer: 1,
+        explanation: '<code>:is(h1, h2, h3)</code>のようにセレクタをグループ化できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'scroll-snap-typeの用途は？',
+        options: ['スクロールバーのスタイル', 'スナップスクロールの実装', 'スクロール位置の保存', 'スクロール速度の調整'],
+        answer: 1,
+        explanation: '<code>scroll-snap-type</code>でスナップスクロールを実装できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'container queriesの用途は？',
+        options: ['サーバーへの問い合わせ', '親コンテナのサイズに基づくスタイル', 'データベースクエリ', 'DOM操作'],
+        answer: 1,
+        explanation: 'Container Queriesで親要素のサイズに応じたスタイルを適用できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: '@layerの用途は？',
+        options: ['レイヤー画像の重ね合わせ', 'カスケードレイヤーの定義', '3Dレイヤー', 'アニメーションレイヤー'],
+        answer: 1,
+        explanation: '<code>@layer</code>でCSSのカスケード順序を制御できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: ':has()セレクタの特徴は？',
+        options: ['子要素を持つ要素を選択', '特定の子を持つ親を選択', 'has属性を選択', '存在確認'],
+        answer: 1,
+        explanation: '<code>:has()</code>で特定の子要素を持つ親要素を選択できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'subgridの用途は？',
+        options: ['サブメニュー作成', '親グリッドのトラックを継承', '小さいグリッド', 'グリッドの分割'],
+        answer: 1,
+        explanation: '<code>subgrid</code>で親のグリッドトラックを子要素で利用できます。'
+      },
+      {
+        category: 'css',
+        level: 4,
+        question: 'accent-colorプロパティの用途は？',
+        options: ['アクセント記号', 'フォーム要素のアクセントカラー', 'ハイライト色', '注目色'],
+        answer: 1,
+        explanation: '<code>accent-color</code>でチェックボックスなどの色を変更できます。'
+      },
+
+      // ===== JavaScript 入門 (レベル1) 10問 =====
+      {
+        category: 'js',
+        level: 1,
+        question: 'JavaScriptで変数を宣言するキーワードは？',
+        options: ['var, let, const', 'variable, define', 'dim, set', 'int, string'],
+        answer: 0,
+        explanation: '<code>var</code>, <code>let</code>, <code>const</code>で変数を宣言します。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: 'コンソールに出力する関数は？',
+        options: ['print()', 'echo()', 'console.log()', 'output()'],
+        answer: 2,
+        explanation: '<code>console.log()</code>でコンソールに出力できます。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: '文字列を結合する演算子は？',
+        options: ['&', '+', '.', ','],
+        answer: 1,
+        explanation: '<code>+</code>演算子で文字列を連結できます。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: '配列を作成する正しい方法は？',
+        options: ['array(1, 2, 3)', '[1, 2, 3]', '{1, 2, 3}', '(1, 2, 3)'],
+        answer: 1,
+        explanation: '配列は<code>[]</code>（角括弧）で作成します。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: 'コメントを書く方法として正しいものは？',
+        options: ['# コメント', '// コメント', '<!-- コメント -->', '** コメント **'],
+        answer: 1,
+        explanation: '1行コメントは<code>//</code>、複数行は<code>/* */</code>を使います。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: 'アラートダイアログを表示する関数は？',
+        options: ['message()', 'alert()', 'popup()', 'show()'],
+        answer: 1,
+        explanation: '<code>alert()</code>でアラートダイアログを表示します。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: '文字列を定義する方法として正しいのは？',
+        options: ['text = Hello', '"Hello" または \'Hello\'', '<Hello>', '[Hello]'],
+        answer: 1,
+        explanation: '文字列はダブルクォートまたはシングルクォートで囲みます。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: '数値の足し算に使う演算子は？',
+        options: ['&', '+', 'add', '++'],
+        answer: 1,
+        explanation: '<code>+</code>で数値の足し算ができます。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: 'trueとfalseは何型？',
+        options: ['文字列型', '数値型', '真偽値型（boolean）', 'オブジェクト型'],
+        answer: 2,
+        explanation: '<code>true</code>と<code>false</code>は真偽値（boolean）型です。'
+      },
+      {
+        category: 'js',
+        level: 1,
+        question: 'if文の条件部分を囲む記号は？',
+        options: ['{}', '[]', '()', '<>'],
+        answer: 2,
+        explanation: 'if文の条件は<code>()</code>で囲みます。'
+      },
+
+      // ===== JavaScript 初級 (レベル2) 10問 =====
+      {
+        category: 'js',
+        level: 2,
+        question: '配列の長さを取得するプロパティは？',
+        options: ['size', 'length', 'count', 'total'],
+        answer: 1,
+        explanation: '<code>array.length</code>で要素数を取得できます。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: '関数を定義する正しい方法は？',
+        options: ['def myFunc() {}', 'function myFunc() {}', 'func myFunc() {}', 'define myFunc() {}'],
+        answer: 1,
+        explanation: '<code>function</code>キーワードで関数を定義します。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: '厳密等価演算子はどれ？',
+        options: ['==', '===', '=', '!='],
+        answer: 1,
+        explanation: '<code>===</code>は型も含めて比較する厳密等価演算子です。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: '配列の最後に要素を追加するメソッドは？',
+        options: ['add()', 'append()', 'push()', 'insert()'],
+        answer: 2,
+        explanation: '<code>push()</code>で末尾に要素を追加します。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: 'オブジェクトのプロパティにアクセスする方法は？',
+        options: ['object->property', 'object.property または object["property"]', 'object:property', 'object@property'],
+        answer: 1,
+        explanation: 'ドット記法またはブラケット記法を使います。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: 'for文のループで使う3つの要素は？',
+        options: ['開始, 終了, 増分', '初期化, 条件, 更新', '最小, 最大, ステップ', 'from, to, step'],
+        answer: 1,
+        explanation: '<code>for(初期化; 条件; 更新)</code>の形式です。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: '配列の最初の要素を取得するには？',
+        options: ['array.first()', 'array[0]', 'array.get(1)', 'array.start'],
+        answer: 1,
+        explanation: '配列のインデックスは0から始まるので<code>array[0]</code>です。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: '文字列を数値に変換する関数は？',
+        options: ['toNumber()', 'parseInt() または Number()', 'convert()', 'int()'],
+        answer: 1,
+        explanation: '<code>parseInt()</code>や<code>Number()</code>で変換できます。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: 'Math.random()が返す値の範囲は？',
+        options: ['1〜100', '0〜1（1を含まない）', '0〜100', '-1〜1'],
+        answer: 1,
+        explanation: '<code>Math.random()</code>は0以上1未満の小数を返します。'
+      },
+      {
+        category: 'js',
+        level: 2,
+        question: 'setTimeoutの用途は？',
+        options: ['時間を取得', '指定時間後に関数を実行', 'タイマーを停止', '処理時間を計測'],
+        answer: 1,
+        explanation: '<code>setTimeout()</code>で指定ミリ秒後に関数を実行します。'
+      },
+
+      // ===== JavaScript 中級 (レベル3) 10問 =====
+      {
+        category: 'js',
+        level: 3,
+        question: '配列の各要素に関数を適用して新しい配列を返すメソッドは？',
+        options: ['forEach()', 'map()', 'filter()', 'reduce()'],
+        answer: 1,
+        explanation: '<code>map()</code>は各要素を変換した新しい配列を返します。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'Promiseが成功した時に呼ばれるメソッドは？',
+        options: ['catch()', 'then()', 'finally()', 'resolve()'],
+        answer: 1,
+        explanation: '<code>then()</code>はPromiseが解決した時に実行されます。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'スプレッド構文の正しい使い方は？',
+        options: ['spread(array)', '...array', '*array', '&array'],
+        answer: 1,
+        explanation: '<code>...array</code>で配列を展開できます。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'アロー関数の省略記法として正しいものは？',
+        options: ['x -> x * 2', 'x => x * 2', 'x >> x * 2', 'x :: x * 2'],
+        answer: 1,
+        explanation: '<code>x => x * 2</code>のように{}とreturnを省略できます。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'テンプレートリテラルの正しい書き方は？',
+        options: ['"Hello ${name}"', '\'Hello ${name}\'', '`Hello ${name}`', '"Hello " + name'],
+        answer: 2,
+        explanation: 'テンプレートリテラルはバッククォート<code>`</code>で囲みます。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: '配列から条件に合う要素だけを抽出するメソッドは？',
+        options: ['find()', 'filter()', 'search()', 'select()'],
+        answer: 1,
+        explanation: '<code>filter()</code>で条件に合う要素の配列を返します。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'オブジェクトの分割代入の書き方は？',
+        options: ['const [a, b] = obj', 'const {a, b} = obj', 'const (a, b) = obj', 'const <a, b> = obj'],
+        answer: 1,
+        explanation: 'オブジェクトの分割代入は<code>{}</code>を使います。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'fetchでGETリクエストを送った後のデータ取得は？',
+        options: ['response.data', 'response.body', 'response.json()', 'response.get()'],
+        answer: 2,
+        explanation: '<code>response.json()</code>でJSONデータを取得します。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'localStorageにデータを保存するメソッドは？',
+        options: ['localStorage.save()', 'localStorage.setItem()', 'localStorage.put()', 'localStorage.store()'],
+        answer: 1,
+        explanation: '<code>localStorage.setItem(key, value)</code>で保存します。'
+      },
+      {
+        category: 'js',
+        level: 3,
+        question: 'イベントリスナーを追加するメソッドは？',
+        options: ['element.on()', 'element.addEventListener()', 'element.listen()', 'element.bind()'],
+        answer: 1,
+        explanation: '<code>addEventListener()</code>でイベントを登録します。'
+      },
+
+      // ===== JavaScript 上級 (レベル4) 10問 =====
+      {
+        category: 'js',
+        level: 4,
+        question: 'async/awaitの特徴として正しいものは？',
+        options: ['同期処理を非同期に変換', '非同期処理を同期的に書ける', 'Promiseを使わなくてよい', 'エラーハンドリング不要'],
+        answer: 1,
+        explanation: '<code>async/await</code>でPromiseを同期的な見た目で書けます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'クロージャの説明として正しいものは？',
+        options: ['即時実行関数', '外部スコープの変数を参照し続ける関数', 'オブジェクト継承', '配列ループ'],
+        answer: 1,
+        explanation: 'クロージャは定義時のスコープの変数を参照し続けます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'WeakMapの特徴は？',
+        options: ['キーに文字列のみ', 'キーがオブジェクトでGC対象', '通常より高速', 'イテレーション可能'],
+        answer: 1,
+        explanation: 'WeakMapのキーは弱参照で、他に参照がなければGCされます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Proxyオブジェクトの用途は？',
+        options: ['非同期通信の中継', 'オブジェクトの操作をインターセプト', 'メモリ最適化', 'DOMの仮想化'],
+        answer: 1,
+        explanation: 'Proxyでオブジェクトへのアクセスをインターセプトできます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Optional Chaining(?.)の効果は？',
+        options: ['三項演算子の省略', 'null/undefinedでもエラーにならない', '型チェック', 'デフォルト値設定'],
+        answer: 1,
+        explanation: '<code>obj?.prop</code>はnull/undefinedでもエラーになりません。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Symbol型の主な用途は？',
+        options: ['数学記号', '一意のプロパティキー', '暗号化', '型チェック'],
+        answer: 1,
+        explanation: 'Symbolは一意の識別子として使われます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Generator関数の特徴は？',
+        options: ['自動生成コード', '中断・再開可能な関数', 'ランダム生成', 'コード圧縮'],
+        answer: 1,
+        explanation: 'Generator関数は<code>yield</code>で実行を中断・再開できます。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Reflect APIの用途は？',
+        options: ['画面の反射効果', 'オブジェクト操作の標準化', 'リフレクション(型情報)', 'ミラーリング'],
+        answer: 1,
+        explanation: 'ReflectはProxyと組み合わせてオブジェクト操作を行います。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Null合体演算子(??)の動作は？',
+        options: ['両方nullなら実行', '左辺がnull/undefinedなら右辺', 'nullを返す', '両辺を比較'],
+        answer: 1,
+        explanation: '<code>a ?? b</code>はaがnull/undefinedならbを返します。'
+      },
+      {
+        category: 'js',
+        level: 4,
+        question: 'Web Workerの用途は？',
+        options: ['DOM操作', 'バックグラウンドでの処理実行', 'データベース操作', 'ファイル管理'],
+        answer: 1,
+        explanation: 'Web Workerはメインスレッドとは別に処理を実行できます。'
+      }
+    ];
+
+    // クイズ状態
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let correctCount = 0;
+    let answeredCount = 0;
+    let answered = false;
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', () => {
+      initQuiz();
+      setupEventListeners();
+    });
+
+    function initQuiz() {
+      filterQuestions();
+      showQuestion();
+    }
+
+    function filterQuestions() {
+      const categoryFilter = document.querySelector('.quiz-tab.active').dataset.category;
+      const levelFilter = document.querySelector('.quiz-level-filter .filter-btn.active').dataset.level;
+
+      currentQuestions = quizData.filter(q => {
+        const categoryMatch = categoryFilter === 'all' || q.category === categoryFilter;
+        const levelMatch = levelFilter === 'all' || q.level === parseInt(levelFilter);
+        return categoryMatch && levelMatch;
+      });
+
+      // シャッフル
+      shuffleArray(currentQuestions);
+
+      currentIndex = 0;
+      correctCount = 0;
+      answeredCount = 0;
+      updateStats();
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function showQuestion() {
+      if (currentQuestions.length === 0) {
+        document.getElementById('quiz-card').innerHTML = '<p style="text-align: center; color: var(--text-secondary);">該当する問題がありません</p>';
+        return;
+      }
+
+      if (currentIndex >= currentQuestions.length) {
+        showComplete();
+        return;
+      }
+
+      const q = currentQuestions[currentIndex];
+      const levelInfo = { 1: { name: '入門', color: '#27ae60' }, 2: { name: '初級', color: '#3498db' }, 3: { name: '中級', color: '#f39c12' }, 4: { name: '上級', color: '#e67e22' } };
+      const categoryNames = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
+
+      document.getElementById('quiz-level').textContent = levelInfo[q.level].name;
+      document.getElementById('quiz-level').style.background = levelInfo[q.level].color;
+      document.getElementById('quiz-category').textContent = categoryNames[q.category];
+      document.getElementById('quiz-question').innerHTML = q.question;
+
+      const optionsHtml = q.options.map((opt, i) => `
+        <div class="quiz-option" data-index="${i}">
+          <span class="quiz-option-marker">${String.fromCharCode(65 + i)}</span>
+          <span class="quiz-option-text">${opt}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('quiz-options').innerHTML = optionsHtml;
+      document.getElementById('quiz-result').className = 'quiz-result';
+      document.getElementById('quiz-result').style.display = 'none';
+      document.getElementById('quiz-actions').style.display = 'none';
+
+      answered = false;
+
+      // 進捗更新
+      document.getElementById('current-num').textContent = currentIndex + 1;
+      document.getElementById('total-num').textContent = currentQuestions.length;
+      document.getElementById('quiz-progress').style.width = ((currentIndex) / currentQuestions.length * 100) + '%';
+
+      // カード表示
+      document.getElementById('quiz-card').style.display = 'block';
+      document.getElementById('quiz-complete').style.display = 'none';
+    }
+
+    function selectOption(index) {
+      if (answered) return;
+      answered = true;
+      answeredCount++;
+
+      const q = currentQuestions[currentIndex];
+      const isCorrect = index === q.answer;
+
+      if (isCorrect) correctCount++;
+
+      // オプションのスタイル更新
+      document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+        opt.classList.add('disabled');
+        if (i === q.answer) {
+          opt.classList.add('correct');
+        } else if (i === index && !isCorrect) {
+          opt.classList.add('incorrect');
+        }
+      });
+
+      // 結果表示
+      const resultEl = document.getElementById('quiz-result');
+      resultEl.className = `quiz-result show ${isCorrect ? 'correct' : 'incorrect'}`;
+      document.getElementById('result-title').innerHTML = isCorrect ? '🎉 正解！' : '❌ 不正解';
+      document.getElementById('result-explanation').innerHTML = q.explanation;
+
+      document.getElementById('quiz-actions').style.display = 'flex';
+      updateStats();
+
+      // 正解時のエフェクト
+      if (isCorrect) {
+        createMiniConfetti();
+      }
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      showQuestion();
+    }
+
+    function showComplete() {
+      document.getElementById('quiz-card').style.display = 'none';
+      document.getElementById('quiz-complete').style.display = 'block';
+      document.getElementById('final-score').textContent = `${correctCount} / ${currentQuestions.length} 問正解`;
+
+      const percentage = (correctCount / currentQuestions.length) * 100;
+      let message = '';
+      if (percentage === 100) message = '🏆 パーフェクト！素晴らしい！';
+      else if (percentage >= 80) message = '🎉 素晴らしい成績です！';
+      else if (percentage >= 60) message = '👍 よくできました！';
+      else if (percentage >= 40) message = '💪 もう少し頑張りましょう！';
+      else message = '📚 復習して再挑戦しましょう！';
+
+      document.getElementById('complete-message').textContent = message;
+      document.getElementById('quiz-progress').style.width = '100%';
+    }
+
+    function updateStats() {
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('total-answered').textContent = answeredCount;
+    }
+
+    function setupEventListeners() {
+      // カテゴリタブ
+      document.querySelectorAll('.quiz-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.quiz-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          filterQuestions();
+          showQuestion();
+        });
+      });
+
+      // レベルフィルター
+      document.querySelectorAll('.quiz-level-filter .filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.quiz-level-filter .filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          filterQuestions();
+          showQuestion();
+        });
+      });
+
+      // 選択肢クリック
+      document.getElementById('quiz-options').addEventListener('click', (e) => {
+        const option = e.target.closest('.quiz-option');
+        if (option) {
+          selectOption(parseInt(option.dataset.index));
+        }
+      });
+
+      // 次へボタン
+      document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+      // シャッフルボタン
+      document.getElementById('shuffle-btn').addEventListener('click', () => {
+        filterQuestions();
+        showQuestion();
+      });
+
+      // リスタートボタン
+      document.getElementById('restart-btn').addEventListener('click', () => {
+        filterQuestions();
+        showQuestion();
+      });
+    }
+
+    // ミニ紙吹雪
+    function createMiniConfetti() {
+      const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#10b981', '#f59e0b'];
+      const container = document.createElement('div');
+      container.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;';
+      document.body.appendChild(container);
+
+      for (let i = 0; i < 20; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          left: ${Math.random() * 100}%;
+          top: -10px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+          animation: confettiFall ${2 + Math.random()}s linear forwards;
+          animation-delay: ${Math.random() * 0.3}s;
+        `;
+        container.appendChild(confetti);
+      }
+
+      setTimeout(() => container.remove(), 2500);
+    }
+
+    // 紙吹雪アニメーション
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes confettiFall {
+        to {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // テーマ初期化
+    (function() {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+
+        document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+          icon.classList.toggle("active", icon.dataset.theme === newTheme);
+        });
+      });
+
+      document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+        icon.classList.toggle("active", icon.dataset.theme === savedTheme);
+      });
+
+      // ハンバーガーメニュー
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      hamburger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) closeMenu();
+      });
+      mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>

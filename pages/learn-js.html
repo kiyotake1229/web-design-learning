@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript入門 - Webデザイン学習</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="../index.html" class="logo"><img src="../logo.svg" alt="Code Practice"></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">🏠 ホーム</a></li>
+        <li><a href="html-exercises.html">📄 HTML</a></li>
+        <li><a href="css-exercises.html">🎨 CSS</a></li>
+        <li><a href="layout-exercises.html">📐 レイアウト</a></li>
+        <li><a href="js-exercises.html">⚡ JS</a></li>
+        <li><a href="dom-exercises.html">🔗 DOM</a></li>
+        <li><a href="responsive-exercises.html">📱 RWD</a></li>
+        <li><a href="project-exercises.html">🚀 実践PJ</a></li>
+        <li><a href="api-exercises.html">🌐 API</a></li>
+        <li><a href="a11y-exercises.html">♿ A11y</a></li>
+        <li><a href="animation-exercises.html">✨ Anim</a></li>
+        <li><a href="quiz.html">❓ クイズ</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="テーマ切り替え">
+          <span class="theme-toggle-icon active" data-theme="dark">🌙</span>
+          <span class="theme-toggle-icon" data-theme="light">☀️</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="メニュー">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+  <nav class="mobile-menu" id="mobile-menu">
+    <ul class="mobile-menu-links">
+      <li><a href="../index.html"><span class="menu-icon">🏠</span>ホーム</a></li>
+      <li><a href="learn-html.html"><span class="menu-icon">📄</span>HTML入門</a></li>
+      <li><a href="learn-css.html"><span class="menu-icon">🎨</span>CSS入門</a></li>
+      <li><a href="learn-js.html" class="active"><span class="menu-icon">⚡</span>JavaScript入門</a></li>
+      <li><a href="cheatsheet.html"><span class="menu-icon">📋</span>チートシート</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article class="tutorial">
+      <div class="tutorial-header">
+        <span class="tutorial-badge">入門</span>
+        <h1>⚡ JavaScript入門</h1>
+        <p class="tutorial-intro">JavaScriptはWebページに動きやインタラクションを追加するプログラミング言語です。</p>
+      </div>
+
+      <nav class="tutorial-nav">
+        <h3>目次</h3>
+        <ol>
+          <li><a href="#what-is-js">JavaScriptとは？</a></li>
+          <li><a href="#variables">変数</a></li>
+          <li><a href="#data-types">データ型</a></li>
+          <li><a href="#operators">演算子</a></li>
+          <li><a href="#conditionals">条件分岐</a></li>
+          <li><a href="#loops">ループ</a></li>
+          <li><a href="#functions">関数</a></li>
+          <li><a href="#arrays">配列</a></li>
+          <li><a href="#objects">オブジェクト</a></li>
+          <li><a href="#dom">DOM操作の基本</a></li>
+        </ol>
+      </nav>
+
+      <section class="tutorial-section" id="what-is-js">
+        <h2>1. JavaScriptとは？</h2>
+        <p><strong>JavaScript</strong>は、Webブラウザで動作するプログラミング言語です。</p>
+
+        <div class="info-box">
+          <h4>💡 JavaScriptでできること</h4>
+          <ul>
+            <li>ユーザーの操作に反応する（クリック、入力など）</li>
+            <li>ページの内容を動的に変更する</li>
+            <li>アニメーションを作成する</li>
+            <li>サーバーとデータをやり取りする</li>
+          </ul>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>HTMLにJavaScriptを追加</span>
+          </div>
+          <pre><code>&lt;!-- 方法1: 外部ファイル（推奨） --&gt;
+&lt;script src="script.js"&gt;&lt;/script&gt;
+
+&lt;!-- 方法2: インライン --&gt;
+&lt;script&gt;
+  console.log("Hello, World!");
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="variables">
+        <h2>2. 変数</h2>
+        <p>変数はデータを格納する「箱」のようなものです。</p>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>変数の宣言</span>
+          </div>
+          <pre><code>// let: 再代入可能
+let name = "田中";
+name = "山田";  // OK
+
+// const: 再代入不可（定数）
+const PI = 3.14159;
+// PI = 3;  // エラー！
+
+// var: 古い書き方（非推奨）
+var age = 25;</code></pre>
+        </div>
+
+        <div class="warning-box">
+          <h4>⚠️ 推奨</h4>
+          <p>基本は <code>const</code> を使い、再代入が必要な場合のみ <code>let</code> を使いましょう。<code>var</code> は使わないようにしましょう。</p>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="data-types">
+        <h2>3. データ型</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>基本的なデータ型</span>
+          </div>
+          <pre><code>// 文字列（String）
+const greeting = "こんにちは";
+const name = 'JavaScript';
+const message = `Hello, ${name}!`;  // テンプレートリテラル
+
+// 数値（Number）
+const age = 25;
+const price = 1980.50;
+
+// 真偽値（Boolean）
+const isActive = true;
+const isLoggedIn = false;
+
+// null と undefined
+let data = null;       // 意図的に「空」
+let value;             // undefined（未定義）
+
+// 配列（Array）
+const fruits = ["りんご", "みかん", "バナナ"];
+
+// オブジェクト（Object）
+const person = {
+  name: "田中",
+  age: 25
+};</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>型の確認</span>
+          </div>
+          <pre><code>console.log(typeof "Hello");  // "string"
+console.log(typeof 42);       // "number"
+console.log(typeof true);     // "boolean"
+console.log(typeof [1, 2]);   // "object"
+console.log(typeof {a: 1});   // "object"</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="operators">
+        <h2>4. 演算子</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>算術演算子</span>
+          </div>
+          <pre><code>const a = 10;
+const b = 3;
+
+console.log(a + b);   // 13（加算）
+console.log(a - b);   // 7（減算）
+console.log(a * b);   // 30（乗算）
+console.log(a / b);   // 3.333...（除算）
+console.log(a % b);   // 1（剰余）
+console.log(a ** b);  // 1000（累乗）</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>比較演算子</span>
+          </div>
+          <pre><code>console.log(5 == "5");   // true（値のみ比較）
+console.log(5 === "5");  // false（型も比較）★推奨
+console.log(5 != "5");   // false
+console.log(5 !== "5");  // true ★推奨
+console.log(5 > 3);      // true
+console.log(5 >= 5);     // true
+console.log(5 < 3);      // false
+console.log(5 <= 5);     // true</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>論理演算子</span>
+          </div>
+          <pre><code>console.log(true && false);  // false（AND）
+console.log(true || false);  // true（OR）
+console.log(!true);          // false（NOT）</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="conditionals">
+        <h2>5. 条件分岐</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>if文</span>
+          </div>
+          <pre><code>const age = 20;
+
+if (age >= 20) {
+  console.log("成人です");
+} else if (age >= 13) {
+  console.log("ティーンエイジャーです");
+} else {
+  console.log("子供です");
+}</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>三項演算子</span>
+          </div>
+          <pre><code>const age = 20;
+const status = age >= 20 ? "成人" : "未成年";
+console.log(status);  // "成人"</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>switch文</span>
+          </div>
+          <pre><code>const fruit = "りんご";
+
+switch (fruit) {
+  case "りんご":
+    console.log("赤い果物");
+    break;
+  case "バナナ":
+    console.log("黄色い果物");
+    break;
+  default:
+    console.log("不明な果物");
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="loops">
+        <h2>6. ループ</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>for文</span>
+          </div>
+          <pre><code>// 基本のfor文
+for (let i = 0; i < 5; i++) {
+  console.log(i);  // 0, 1, 2, 3, 4
+}
+
+// 配列のループ
+const fruits = ["りんご", "みかん", "バナナ"];
+for (let i = 0; i < fruits.length; i++) {
+  console.log(fruits[i]);
+}</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>for...of（配列向け）★推奨</span>
+          </div>
+          <pre><code>const fruits = ["りんご", "みかん", "バナナ"];
+
+for (const fruit of fruits) {
+  console.log(fruit);
+}</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>while文</span>
+          </div>
+          <pre><code>let count = 0;
+
+while (count < 5) {
+  console.log(count);
+  count++;
+}</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="functions">
+        <h2>7. 関数</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>関数宣言</span>
+          </div>
+          <pre><code>// 関数宣言
+function greet(name) {
+  return `こんにちは、${name}さん！`;
+}
+
+console.log(greet("田中"));  // "こんにちは、田中さん！"</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>アロー関数 ★モダンな書き方</span>
+          </div>
+          <pre><code>// アロー関数
+const greet = (name) => {
+  return `こんにちは、${name}さん！`;
+};
+
+// 省略形（1行の場合）
+const greet = (name) => `こんにちは、${name}さん！`;
+
+// 引数が1つの場合、括弧も省略可能
+const double = x => x * 2;</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>デフォルト引数</span>
+          </div>
+          <pre><code>const greet = (name = "ゲスト") => {
+  return `こんにちは、${name}さん！`;
+};
+
+console.log(greet());        // "こんにちは、ゲストさん！"
+console.log(greet("田中"));  // "こんにちは、田中さん！"</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="arrays">
+        <h2>8. 配列</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>配列の基本</span>
+          </div>
+          <pre><code>const fruits = ["りんご", "みかん", "バナナ"];
+
+// アクセス
+console.log(fruits[0]);     // "りんご"
+console.log(fruits.length); // 3
+
+// 追加・削除
+fruits.push("ぶどう");      // 末尾に追加
+fruits.pop();               // 末尾を削除
+fruits.unshift("いちご");   // 先頭に追加
+fruits.shift();             // 先頭を削除</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>配列メソッド ★重要</span>
+          </div>
+          <pre><code>const numbers = [1, 2, 3, 4, 5];
+
+// map: 各要素を変換した新しい配列を作成
+const doubled = numbers.map(n => n * 2);
+// [2, 4, 6, 8, 10]
+
+// filter: 条件に合う要素だけの配列を作成
+const evens = numbers.filter(n => n % 2 === 0);
+// [2, 4]
+
+// find: 条件に合う最初の要素を返す
+const found = numbers.find(n => n > 3);
+// 4
+
+// reduce: 配列を1つの値にまとめる
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+// 15
+
+// includes: 含まれているか確認
+const hasThree = numbers.includes(3);
+// true
+
+// forEach: 各要素に対して処理（戻り値なし）
+numbers.forEach(n => console.log(n));</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="objects">
+        <h2>9. オブジェクト</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>オブジェクトの基本</span>
+          </div>
+          <pre><code>const person = {
+  name: "田中太郎",
+  age: 25,
+  city: "東京",
+
+  // メソッド
+  greet() {
+    return `こんにちは、${this.name}です`;
+  }
+};
+
+// アクセス
+console.log(person.name);       // "田中太郎"
+console.log(person["age"]);     // 25
+console.log(person.greet());    // "こんにちは、田中太郎です"
+
+// プロパティの追加・変更
+person.email = "tanaka@example.com";
+person.age = 26;</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>分割代入</span>
+          </div>
+          <pre><code>const person = { name: "田中", age: 25, city: "東京" };
+
+// オブジェクトの分割代入
+const { name, age } = person;
+console.log(name);  // "田中"
+console.log(age);   // 25
+
+// 配列の分割代入
+const colors = ["赤", "青", "緑"];
+const [first, second] = colors;
+console.log(first);   // "赤"
+console.log(second);  // "青"</code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-section" id="dom">
+        <h2>10. DOM操作の基本</h2>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>要素の取得</span>
+          </div>
+          <pre><code>// IDで取得
+const element = document.getElementById("myId");
+
+// クラスで取得（複数）
+const elements = document.getElementsByClassName("myClass");
+
+// セレクタで取得（1つ）★推奨
+const element = document.querySelector(".myClass");
+
+// セレクタで取得（複数）★推奨
+const elements = document.querySelectorAll(".myClass");</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>要素の操作</span>
+          </div>
+          <pre><code>const element = document.querySelector("#myElement");
+
+// テキストの変更
+element.textContent = "新しいテキスト";
+
+// HTMLの変更
+element.innerHTML = "&lt;strong&gt;太字&lt;/strong&gt;";
+
+// クラスの操作
+element.classList.add("active");
+element.classList.remove("active");
+element.classList.toggle("active");
+
+// スタイルの変更
+element.style.color = "red";
+element.style.backgroundColor = "blue";
+
+// 属性の操作
+element.setAttribute("data-id", "123");
+element.getAttribute("data-id");</code></pre>
+        </div>
+
+        <div class="code-example">
+          <div class="code-header">
+            <span>イベントリスナー</span>
+          </div>
+          <pre><code>const button = document.querySelector("#myButton");
+
+// クリックイベント
+button.addEventListener("click", () => {
+  console.log("クリックされました！");
+});
+
+// その他のイベント
+element.addEventListener("mouseover", () => { /* マウスオーバー */ });
+element.addEventListener("mouseout", () => { /* マウスアウト */ });
+element.addEventListener("keydown", (e) => { /* キー入力 */ });
+element.addEventListener("submit", (e) => {
+  e.preventDefault();  // デフォルト動作を防ぐ
+});</code></pre>
+        </div>
+      </section>
+
+      <div class="tutorial-footer">
+        <h3>次のステップ</h3>
+        <div class="next-steps">
+          <a href="js-exercises.html" class="next-step-card">
+            <span class="next-icon">✏️</span>
+            <span>JavaScript問題を解く</span>
+          </a>
+          <a href="dom-exercises.html" class="next-step-card">
+            <span class="next-icon">🔗</span>
+            <span>DOM操作問題へ</span>
+          </a>
+          <a href="cheatsheet.html" class="next-step-card">
+            <span class="next-icon">📋</span>
+            <span>チートシートを見る</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Webデザイン学習</p>
+  </footer>
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.getElementById("theme-toggle")?.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+          icon.classList.toggle("active", icon.dataset.theme === newTheme);
+        });
+      });
+      document.querySelectorAll(".theme-toggle-icon").forEach(icon => {
+        icon.classList.toggle("active", icon.dataset.theme === savedTheme);
+      });
+
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('mobile-overlay');
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      }
+      function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      hamburger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) closeMenu();
+      });
+      mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    })();
+  </script>
+</body>
+</html>
